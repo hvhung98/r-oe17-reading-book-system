@@ -1,0 +1,63 @@
+<div class="containter">
+  <div id="signupbox" style="margin-top:50px" class="mainbox
+    col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="panel-title"><%= t ".sign_up" %></div>
+        <div style="float:right; font-size: 85%; position: relative; top:-10px">
+          <%= link_to t(".sign_in"), root_url %>
+        </div>
+      </div>
+      <div class="panel-body" >
+        <%= form_for @user, html: {class: "form-horizontal"} do |f| %>
+          <%= render "shared/error_messages", object: f.object %>
+          <div class="form-group">
+            <%= f.label :name, class: "col-md-3 control-label" %>
+            <div class="col-md-9">
+              <%= f.text_field :name, class: "form-control", placeholder:
+                "Your full name" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :email, class: "col-md-3 control-label" %>
+            <div class="col-md-9">
+              <%= f.email_field :email, class: "form-control", placeholder:
+                "Your email" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :password, class: "col-md-3 control-label" %>
+            <div class="col-md-9">
+              <%= f.password_field :password, class: "form-control", placeholder:
+                "Password" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :password_confirmation, "Confirmation",
+              class: "col-md-3 control-label" %>
+            <div class="col-md-9">
+              <%= f.password_field :password_confirmation, class: "form-control",
+                placeholder: "Confirmation password" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+              <%= f.submit t("sessions.new.btn_signup"), class: "btn btn-info" do %>
+                <i class="icon-hand-right"></i>
+              <% end %>
+              <span style="margin-left:8px;"><%= t "sessions.new.btn_signup.or" %></span>
+            </div>
+          </div>
+          <div style="border-top:1px solid #999; padding-top:20px" class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+              <%= button_tag(:class => "btn btn-danger") do %>
+                <i class="fab fa-google" style="font-size:16px; margin-right:5px"></i>
+                <%= t "sessions.new.btn_signup_gg" %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

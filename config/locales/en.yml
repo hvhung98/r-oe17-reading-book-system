@@ -1,0 +1,22 @@
+en:
+  base_title: "Read Book Online App"
+  invalid_user: "User is not found"
+  sessions:
+    new:
+      sign_in: "Sign In"
+      forgot_pw: "Forgot password?"
+      pl_h_e: "Your email"
+      pl_h_p: "Your password"
+      remember_me: "Remember me"
+      login: "Login"
+      login_gg: "Login with Google"
+      new_account: "Don't have an account!"
+      sign_up: "Sign Up"
+      btn_signup: "Sign Up"
+      btn_signup_gg: "Sign Up with Google"
+      or: "or"
+      invalid_login: "Invalid email/password combination"
+      anonymous_user: "Anonymous User"
+  shared:
+    error_messages:
+      the: "The "

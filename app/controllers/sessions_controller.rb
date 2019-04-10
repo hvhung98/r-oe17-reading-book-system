@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
   def create
     if (auth = request.env["omniauth.auth"])
-      user = User.find_by_provider_and_user_id(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
+      user = User.find_by_provider_and_id(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
         log_in user
         redirect_to user
     else

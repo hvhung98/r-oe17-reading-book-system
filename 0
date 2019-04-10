@@ -1,2 +1,0 @@
-Could not find generator 'change_column'. Maybe you meant 'channel', 'controller' or 'helper'
-Run `rails generate --help` for more options.

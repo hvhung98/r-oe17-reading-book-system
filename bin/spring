@@ -1,28 +1,14 @@
-#!/usr/bin/env ruby
-<<<<<<< HEAD
 
-# This file loads spring without using Bundler, in order to be fast.
-# It gets overwritten when you run the `spring binstub` command.
-
-unless defined?(Spring)
-  require 'rubygems'
-  require 'bundler'
-=======
 unless defined?(Spring)
   require "rubygems"
   require "bundler"
->>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788
 
   lockfile = Bundler::LockfileParser.new(Bundler.default_lockfile.read)
   spring = lockfile.specs.detect { |spec| spec.name == "spring" }
   if spring
     Gem.use_paths Gem.dir, Bundler.bundle_path.to_s, *Gem.path
-<<<<<<< HEAD
-    gem 'spring', spring.version
-    require 'spring/binstub'
-=======
+
     gem "spring", spring.version
     require "spring/binstub"
->>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788
   end
 end

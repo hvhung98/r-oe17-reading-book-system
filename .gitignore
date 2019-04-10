@@ -11,7 +11,7 @@ capybara-*.html
 *.orig
 rerun.txt
 pickle-email-*.html
-
+/test/*
 config/initializers/secret_token.rb
 config/master.key
 

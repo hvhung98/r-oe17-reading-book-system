@@ -9,10 +9,7 @@ default: &default
 development:
   <<: *default
   database: mydb
-<<<<<<< HEAD
 
-=======
->>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788
 test:
   <<: *default
   database: mydb
@@ -20,10 +17,5 @@ test:
 production:
   <<: *default
   database: mydb
-<<<<<<< HEAD
   username: root
   password:
-=======
-  username: reading_book
-  password: <%= ENV["READING_BOOK_DATABASE_PASSWORD"] %>
->>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788

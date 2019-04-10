@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-<<<<<<< HEAD
   attr_accessor :remember_token
   before_save :downcase_email
   validates :name, presence: true, length: {maximum: 50}
@@ -10,14 +9,22 @@ class User < ApplicationRecord
   validates :password, presence: true, length: {
     minimum: 6}, allow_nil: true
   scope :ordered_by_name, -> {order name: :asc}
-
+  belongs_to :role
+  has_one :history
+  has_many :follows
+  has_many :categorys, through: :follow
+  has_many :books
+  has_many :likes
+  has_many :books, through: :like
+  has_many :comments
+  has_many :books, through: :comment
 
   def self.create_with_omniauth(auth)
     create! do |user|
       user.provider = auth["provider"]
       user.email = auth["info"]["email"]
-      user.user_id = auth["uid"]
-      user.name = "Hoang Viet Hung"
+      user.id = auth["uid"]
+      user.name = auth["info"]["name"]
       user.password = "password"
       user.password_confirmation = "password"
     end
@@ -46,15 +53,5 @@ class User < ApplicationRecord
   def downcase_email
     email.downcase!
   end
-=======
-  belongs_to :role
-  has_one :history
-  has_many :follows
-  has_many :categorys, through: :follow
-  has_many :books
-  has_many :likes
-  has_many :books, through :like
-  has_many :comments
-  has_many :books, through :comment
->>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788
+
 end

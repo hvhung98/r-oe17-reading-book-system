@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+<<<<<<< HEAD
   user_id: 1
   name: MyString
   email: MyString
@@ -13,3 +14,15 @@ two:
   email: MyString
   password_digest: MyString
   remember_digest: MyString
+=======
+  role: one
+  name: MyString
+  email: MyString
+  status: false
+
+two:
+  role: two
+  name: MyString
+  email: MyString
+  status: false
+>>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788

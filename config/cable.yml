@@ -7,4 +7,8 @@ test:
 production:
   adapter: redis
   url: redis://localhost:6379/1
+<<<<<<< HEAD
   channel_prefix: project1_demo_production
+=======
+  channel_prefix: reading_book_production
+>>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788

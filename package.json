@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "project1_demo",
+=======
+  "name": "reading_book",
+>>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788
   "private": true,
   "dependencies": {}
 }

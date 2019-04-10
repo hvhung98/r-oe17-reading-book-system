@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+<<<<<<< HEAD
   root "sessions#new"
   post "/login", to: "sessions#create"
   get "/auth/:provider/callback", to: "sessions#create"
@@ -7,4 +8,6 @@ Rails.application.routes.draw do
   post "/signup", to: "users#create"
   get "/home", to: "static_pages#home"
   resources :users
+=======
+>>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788
 end

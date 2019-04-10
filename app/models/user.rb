@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+<<<<<<< HEAD
   attr_accessor :remember_token
   before_save :downcase_email
   validates :name, presence: true, length: {maximum: 50}
@@ -45,4 +46,15 @@ class User < ApplicationRecord
   def downcase_email
     email.downcase!
   end
+=======
+  belongs_to :role
+  has_one :history
+  has_many :follows
+  has_many :categorys, through: :follow
+  has_many :books
+  has_many :likes
+  has_many :books, through :like
+  has_many :comments
+  has_many :books, through :comment
+>>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788
 end

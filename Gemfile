@@ -5,6 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+<<<<<<< HEAD
 gem "bcrypt", "3.1.12"
 gem "bootstrap-sass"
 gem "coffee-rails", "~> 4.2"
@@ -19,6 +20,17 @@ gem "rails-i18n"
 gem "sass-rails", "~> 5.0"
 gem "turbolinks", "~> 5"
 gem "uglifier", ">= 1.3.0"
+=======
+
+gem "rails", "~> 5.1.7"
+gem "mysql2", ">= 0.3.18", "< 0.6.0"
+gem "puma", "~> 3.7"
+gem "sass-rails", "~> 5.0"
+gem "uglifier", ">= 1.3.0"
+gem "coffee-rails", "~> 4.2"
+gem "turbolinks", "~> 5"
+gem "jbuilder", "~> 2.5"
+>>>>>>> cbb8985f37cb571bba4536b814d193f5f6722788
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]

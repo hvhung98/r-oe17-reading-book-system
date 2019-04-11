@@ -1,0 +1,4 @@
+$("#form_category").remove();
+$("#new_category a").show();
+$("#category_book").prepend('<%= j render @category %>');
+$("#all_categories .panel-body").prepend('<li style="margin-bottom: 10px; list-style-type: none"><%= link_to @category, style: "text-decoration: none" do %><span class="glyphicon glyphicon-record" style="margin-right: 6px"></span><%= @category.name %><% end %><%= link_to @category, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %><i class="far fa-trash-alt" style="font-size: 18px; color: #337ab7; float: right; margin-left: 8px"></i><% end %><%= link_to edit_category_path @category, remote: true do %><i class="far fa-edit" style="font-size: 18px; color: #337ab7; float: right"></i><% end %></li>');

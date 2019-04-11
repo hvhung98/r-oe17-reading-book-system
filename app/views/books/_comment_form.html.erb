@@ -1,0 +1,4 @@
+<%= form_for [category, book, comment], remote: true do |f| %>
+  <%= f.text_area :content, class: "form-control", placeholder: "Thêm bình luận", style: "width: 80%" %><hr>
+  <%= f.submit "Đăng", class: "btn btn-primary" %>
+<% end %>

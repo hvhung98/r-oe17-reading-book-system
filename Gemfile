@@ -5,13 +5,11 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-<<<<<<< HEAD
-=======
 gem "config"
->>>>>>> b633a1b2e25573c8f8bc7e978566474e60928195
 gem "bcrypt", "3.1.12"
 gem "bootstrap-sass"
 gem "coffee-rails", "~> 4.2"
+gem "faker", :git => "https://github.com/stympy/faker.git", :branch => "master"
 gem "font-awesome-sass"
 gem "jbuilder", "~> 2.5"
 gem "jquery-rails"
@@ -23,7 +21,8 @@ gem "rails-i18n"
 gem "sass-rails", "~> 5.0"
 gem "turbolinks", "~> 5"
 gem "uglifier", ">= 1.3.0"
-gem "faker",  "1.7.3"
+gem "will_paginate", "3.1.6"
+gem "will_paginate-bootstrap"
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]

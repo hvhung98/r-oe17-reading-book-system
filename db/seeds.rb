@@ -5,7 +5,7 @@ Category.create!(name: "Văn hóa - Tôn giáo")
 Category.create!(name: "Lịch sử - Chính trị")
 
 Role.create!(name: "normal")
-Role.create!(name: "moderrator")
+Role.create!(name: "moderator")
 Role.create!(name: "admin")
 
 User.create!(name: "admin",
@@ -26,6 +26,11 @@ User.create!(name: "admin",
     email: email)
 end
 
+20.times do |n|
+  name = Faker::Name.name
+  Author.create!(name: name)
+end
+
 100.times do |n|
   name = Faker::Name.name,
   category_id = n%Category.count+1,
@@ -37,4 +42,49 @@ end
     status: status,
     description: description,
     user_id: user_id)
+end
+
+100.times do |n|
+  category_id = n%Category.count+1
+  Follow.create!(user_id: n%User.count+1,
+    category_id: category_id)
+end
+
+100.times do |n|
+  book_id = n%Book.count+1
+  Like.create!(user_id: n%User.count+1,
+    book_id: book_id)
+end
+
+10.times do |n|
+  author_id = n%Author.count+1
+  book_id = 1
+  Writer.create!(author_id: author_id, book_id: book_id)
+end
+
+10.times do |n|
+  book_id = 1
+  user_id = n%User.count+1
+  name = Faker::Name.name,
+  content = Faker::Quotes::Shakespeare.hamlet_quote
+  Chapter.create!(book_id: book_id, name: name, content: content)
+  Comment.create!(book_id: book_id, user_id: user_id, content: content)
+end
+
+10.times do |n|
+  book_id = 5
+  user_id = n%User.count+1
+  name = Faker::Name.name,
+  content = Faker::Quotes::Shakespeare.hamlet_quote
+  Chapter.create!(book_id: book_id, name: name, content: content)
+  Comment.create!(book_id: book_id, user_id: user_id, content: content)
+end
+
+10.times do |n|
+  book_id = 4
+  user_id = n%User.count+1
+  name = Faker::Name.name,
+  content = Faker::Quotes::Shakespeare.hamlet_quote
+  Chapter.create!(book_id: book_id, name: name, content: content)
+  Comment.create!(book_id: book_id, user_id: user_id, content: content)
 end

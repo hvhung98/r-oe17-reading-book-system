@@ -1,0 +1,17 @@
+<div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8
+  col-lg-offset-2" style="background-color: #eee; margin-bottom: 30px">
+  <h3 class="text-center">
+    <%= link_to @book.name ,[@category, @book] %>
+  </h3><br>
+  <h4 class="text-center">Chương <%= @position_chapter %>: <%= @chapter.name %></h4>
+  <hr style="border-top: 1px solid #e5e5e5;">
+  <%= render "paginate_chapter" %>
+  <% c = @chapter.content.split("\n") %>
+  <% c.each do |paragraph| %>
+    <h4 style="line-height: 30px; margin-top: 30px; margin-bottom: 30px">
+      <%= paragraph %>
+    </h4>
+  <% end %>
+  <%= render "paginate_chapter" %>
+  <br><br>
+</div>

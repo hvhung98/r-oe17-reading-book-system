@@ -1,15 +1,4 @@
 class User < ApplicationRecord
-
-  belongs_to :role
-  has_one :history
-  has_many :follows
-  has_many :categorys, through: :follows
-  has_many :books
-  has_many :likes
-  has_many :books, through: :likes
-  has_many :comments
-  has_many :books, through: :comments
-
   attr_accessor :remember_token
   before_save :downcase_email
   validates :name, presence: true, length: {maximum: Settings.name_max}
@@ -20,6 +9,15 @@ class User < ApplicationRecord
   validates :password, presence: true, length: {
     minimum: Settings.pass_min}, allow_nil: true
   scope :ordered_by_name, -> {order name: :asc}
+  belongs_to :role
+  has_one :history
+  has_many :follows
+  has_many :categories, through: :follows
+  has_many :books
+  has_many :likes
+  has_many :books, through: :likes
+  has_many :comments
+  has_many :books, through: :comments
 
   def self.create_with_omniauth(auth)
     create! do |user|

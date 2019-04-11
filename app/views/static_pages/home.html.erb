@@ -1,1 +1,59 @@
-<h1>Hello</h1>
+<% if !logged_in? %>
+  <div class="jumbotron">
+    <div class="container text-center">
+      <h1>Read Book Online</h1>
+      <p>Thư viện các thể loại cùng các sách</p>
+    </div>
+    <hr>
+    <% @categories.each do |category| %>
+      <% if (@count_category % 3) == 1 %>
+        <div class="row" style="margin-bottom: 12px">
+          <div class="col-sm-4 col-md-4 col-lg-4">
+            <%= link_to category do %>
+              <span class="glyphicon glyphicon-folder-open" style=
+                "margin-right: 4px"></span>
+              <%= category.name %>
+            <% end %>
+          </div>
+      <% elsif (@count_category % 3) == 2 %>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+          <%= link_to category do %>
+            <span class="glyphicon glyphicon-folder-open" style=
+                "margin-right: 4px"></span>
+            <%= category.name %>
+          <% end %>
+        </div>
+      <% elsif (@count_category % 3) == 0 %>
+          <div class="col-sm-4 col-md-4 col-lg-4">
+            <%= link_to category do %>
+              <span class="glyphicon glyphicon-folder-open" style=
+                "margin-right: 4px"></span>
+              <%= category.name %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <% @count_category += 1 %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-success" id="alert_category">Những cuốn sách liên quan</div>
+    <div class="row">
+      <div class="col-sm-9 col-md-9 col-lg-9" id="category_book">
+        <%= render @feed_categories %>
+      </div>
+      <div class="col-sm-3 col-md-3 col-lg-3">
+        <% if current_user.role_id == 3 %>
+          <div id="new_category">
+            <%= link_to new_category_path, remote: true, class: "btn btn-primary" do %>
+              <span class="glyphicon glyphicon-plus"></span>
+              Add category
+            <% end %>
+          </div>
+        <% end %>
+        <div id="all_categories">
+          <%= render "shared/list_category", categories: @categories %>
+        </div>
+      </div>
+    </div>
+<% end %>

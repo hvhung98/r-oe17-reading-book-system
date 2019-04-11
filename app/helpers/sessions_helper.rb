@@ -38,6 +38,25 @@ module SessionsHelper
   def log_out
     forget(current_user)
     session.delete :user_id
+    session.delete :forwarding_url
     @current_user = nil
+  end
+
+  def liked(book, user)
+    @status = Like.find_by_user_id_and_book_id(user.id, book.id)
+    if @status.nil?
+     false
+    else
+     true
+    end
+  end
+
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
   end
 end

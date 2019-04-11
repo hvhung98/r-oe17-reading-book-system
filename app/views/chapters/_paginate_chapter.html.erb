@@ -1,0 +1,31 @@
+<div class="row text-center">
+  <% if @prev_chapter.present? %>
+    <%= link_to [@prev_chapter.book.category, @prev_chapter.book, @prev_chapter],
+      class: "btn btn-default", style: "margin-right: 2%; padding: 6px 24px" do %>
+      <span class="glyphicon glyphicon-arrow-left"></span>
+    <% end %>
+  <% end %>
+  <span class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle=
+      "dropdown" style="padding: 6px 24px; margin-right: 2%">Chọn tập
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <% @feed_chapters.each_with_index do |chapter, index| %>
+        <% if (index + 1) == @position_chapter %>
+          <li class="active"><%= link_to "Chương #{index + 1}: #{chapter.name}",
+            [chapter.book.category, chapter.book, chapter] %></li>
+        <% else %>
+          <li><%= link_to "Chương #{index + 1}: #{chapter.name}",
+            [chapter.book.category, chapter.book, chapter] %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </span>
+  <% if @next_chapter.present? %>
+    <%= link_to [@next_chapter.book.category, @next_chapter.book, @next_chapter],
+      class: "btn btn-default", style: "padding: 6px 24px" do %>
+      <span class="glyphicon glyphicon-arrow-right"></span>
+    <% end %>
+  <% end %>
+</div>

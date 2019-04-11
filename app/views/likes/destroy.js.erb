@@ -1,0 +1,1 @@
+$("#like_status").html('<%= j render "books/like", current_user: current_user, book: @book, count_like: @book.likes.count %>');

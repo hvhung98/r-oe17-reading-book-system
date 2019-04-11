@@ -1,0 +1,3 @@
+$("#count_comment").html("<%= @book.comments.count %> bình luận");
+$("#comment_form").html('<%= j render "books/comment_form", category: @category, book: @book, comment: @book.comments.build %>');
+$('#feed_comment').prepend('<%= j render @comment %>');

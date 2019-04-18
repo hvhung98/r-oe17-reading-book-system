@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :follows
   end
   resources :likes
+  resources :books
   resources :categories do
     resources :books do
       resources :chapters

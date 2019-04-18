@@ -12,11 +12,11 @@ class CommentsController < ApplicationController
     if @comment.save
       respond_to do |format|
         format.js
-        format.html {redirect_to @comment}
+        format.html {redirect_to category_book_path @category, @book}
       end
     else
       flash[:danger] = "Error in adding comment"
-      redirect to category_book_path @book
+      redirect to category_book_path @category, @book
     end
   end
 

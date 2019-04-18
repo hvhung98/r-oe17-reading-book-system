@@ -6,6 +6,6 @@
   <div class="media-body">
     <h4 class="media-heading"><%= link_to comment.user.name, comment.user %></h4>
     <p><%= comment.content %></p>
-    <p><%= comment.created_at %></p>
+    <small class="text-info"><%= time_ago_in_words(comment.created_at) %> ago</small>
   </div>
 </div><br>

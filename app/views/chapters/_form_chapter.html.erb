@@ -1,0 +1,32 @@
+<div class="panel panel-info" id="form_chapter">
+  <div class="panel-heading">
+    <div class="panel-title">Thêm chapter</div>
+  </div>
+  <div class="panel-body">
+    <%= form_for [category, book, chapter], remote: true, html: {class: "form-horizontal"} do |f| %>
+      <%= render "shared/error_messages", object: f.object %>
+      <div class="form-group" style="padding-left: 12px">
+        <%= f.label :name, "Tên chapter" %>
+        <%= f.text_field :name, class: "form-control", style: "width: 90%" %>
+      </div>
+      <div class="form-group" style="padding-left: 12px">
+        <%= f.label :content, "Nội dung" %>
+        <%= f.text_area :content, rows: 5, class: "form-control", style: "width: 90%" %>
+      </div>
+      <div class="form-group" style="padding-left: 12px">
+        <%= f.submit "Xác nhận", class: "btn btn-info" do %>
+          <i class="icon-hand-right"></i>
+        <% end %>
+        <button type="button" onclick="cancel_add_chapter()" class="btn btn-warning" style="padding-left: 12px;
+          padding-right: 12px; margin-left: 2%">Hủy bỏ</button>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  function cancel_add_chapter() {
+    $("#form_chapter").remove()
+  }
+</script>
+

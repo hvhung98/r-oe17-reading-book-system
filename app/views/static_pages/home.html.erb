@@ -47,7 +47,15 @@
           <div id="new_category">
             <%= link_to new_category_path, remote: true, class: "btn btn-primary" do %>
               <span class="glyphicon glyphicon-plus"></span>
-              Add category
+              Thêm thể loại
+            <% end %>
+          </div>
+        <% end %>
+        <% if (current_user.role_id == 3 || current_user.role_id == 2) %>
+          <div id="new_book" style="margin-bottom: 25px">
+            <%= link_to new_book_path, class: "btn btn-primary" do %>
+              <span class="glyphicon glyphicon-plus"></span>
+              Thêm sách
             <% end %>
           </div>
         <% end %>
@@ -55,5 +63,7 @@
           <%= render "shared/list_category", categories: @categories %>
         </div>
       </div>
+    </div>
+    <div class="edit_book">
     </div>
 <% end %>

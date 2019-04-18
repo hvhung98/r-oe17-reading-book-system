@@ -1,4 +1,4 @@
-$(".delete").bind('ajax:success', function() {
+$(".delete").bind("ajax:success", function() {
   $(this).parent().fadeOut();
   $("#category_<%= @category.id %>").fadeOut();
 })

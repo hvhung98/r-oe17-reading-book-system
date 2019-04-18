@@ -1,61 +1,30 @@
 <div class="row">
   <div class="col-sm-9 col-md-9 col-lg-9">
-    <div class="panel panel-primary" style="border-color: #e8e8e8">
-      <div class="panel-heading"><%= @category.name %></div>
-      <div class="panel-body">
-        <% @books.each do |book| %>
-          <% if (@count_book % 4) == 1 %>
-            <div class="row" style="margin-bottom: 12px">
-              <div class="col-sm-3 col-md-3 col-lg-3">
-                <%= link_to [book.category, book], class: "thumbnail", style: "border: none" do %>
-                  <%= image_tag("image.jpg", style: "width:100%",
-                    alt: "Book image") %>
-                    <div class="caption text-center">
-                      <p><%= book.name %></p>
-                    </div>
-                <% end %>
-              </div>
-          <% elsif (@count_book % 4) == 2 %>
-            <div class="col-sm-3 col-md-3 col-lg-3">
-              <%= link_to [book.category, book], class: "thumbnail", style: "border: none" do %>
-                <%= image_tag("image.jpg", style: "width:100%",
-                  alt: "Book image") %>
-                <div class="caption text-center">
-                  <p><%= book.name %></p>
-                </div>
-              <% end %>
-            </div>
-          <% elsif (@count_book % 4) == 3 %>
-            <div class="col-sm-3 col-md-3 col-lg-3">
-              <%= link_to [book.category, book], class: "thumbnail", style: "border: none" do %>
-                <%= image_tag("image.jpg", style: "width:100%",
-                  alt: "Book image") %>
-                <div class="caption text-center">
-                  <p><%= book.name %></p>
-                </div>
-              <% end %>
-            </div>
-          <% elsif (@count_book % 4) == 0 %>
-              <div class="col-sm-3 col-md-3 col-lg-3">
-                <%= link_to [book.category, book], class: "thumbnail", style: "border: none" do %>
-                  <%= image_tag("image.jpg", style: "width:100%",
-                    alt: "Book image") %>
-                    <div class="caption text-center">
-                      <p><%= book.name %></p>
-                    </div>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-          <% @count_book += 1 %>
-        <% end %>
-      </div>
-      <div class="text-center">
-        <%= will_paginate @books %>
-      </div>
-    </div>
+    <%= render @category %>
   </div>
   <div class="col-sm-3 col-md-3 col-lg-3">
-    <%= render "shared/list_category" %>
+    <% if current_user.present? %>
+      <% if current_user.role_id == 3 %>
+        <div id="new_category">
+          <%= link_to new_category_path, remote: true, class: "btn btn-primary" do %>
+          <span class="glyphicon glyphicon-plus"></span>
+          Thêm thể loại
+          <% end %>
+        </div>
+      <% end %>
+      <% if (current_user.role_id == 3 || current_user.role_id == 2) %>
+        <div id="new_book" style="margin-bottom: 25px">
+          <%= link_to new_book_path, class: "btn btn-primary" do %>
+          <span class="glyphicon glyphicon-plus"></span>
+          Thêm sách
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+    <div id="all_categories">
+      <%= render "shared/list_category", categories: @categories %>
+    </div>
+    <div class="edit_book">
+    </div>
   </div>
 </div>

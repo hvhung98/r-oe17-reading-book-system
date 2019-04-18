@@ -1,0 +1,4 @@
+$(".delete").bind("ajax:success", function() {
+  $(this).parent().fadeOut();
+  $("#hr_chapter_<%= @chapter.id %>").fadeOut();
+})

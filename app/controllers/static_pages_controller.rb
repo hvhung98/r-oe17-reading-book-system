@@ -8,5 +8,6 @@ class StaticPagesController < ApplicationController
       @feed_categories = current_user.categories
       @categories = Category.all
     end
+    store_location
   end
 end

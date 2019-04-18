@@ -10,7 +10,6 @@ class CategoriesController < ApplicationController
     if @category.save
       @follow = @category.follows.build
       @follow.user_id = current_user.id
-      @follow.category_id = @category.id
       @follow.save
       respond_to do |format|
         format.js
@@ -24,7 +23,7 @@ class CategoriesController < ApplicationController
   def show
     @count_book = 1
     @categories = Category.all
-    @books = @category.books.paginate(page: params[:page], per_page: 12)
+    store_location
   end
 
   def edit

@@ -10,4 +10,15 @@ class StaticPagesController < ApplicationController
     end
     store_location
   end
+
+  def index
+    if logged_in?
+      if current_user.role_id != 3
+        flash[:warning] = "Bạn không có quyền admin"
+        redirect_to home_path
+      end
+    else
+      redirect_to root_path
+    end
+  end
 end

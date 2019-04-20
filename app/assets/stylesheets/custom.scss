@@ -78,3 +78,68 @@
   from {transform: scale(0)}
   to {transform: scale(1)}
 }
+
+
+.sidenav {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 50px;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-left .5s;
+  margin-left: 250px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+.update-panel {
+  color: #fff;
+}
+
+.bg-yellow {
+  background: linear-gradient(to right, #fe9365, #feb798);
+}
+
+.bg-green {
+  background: linear-gradient(to right, #0ac282, #0df3a3);
+}
+
+.bg-pink {
+  background: linear-gradient(to right, #fe5d70, #fe909d);
+}
+
+.bg-blue {
+  background: linear-gradient(to right, #01a9ac, #01dbdf);
+}

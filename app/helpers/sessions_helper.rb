@@ -1,6 +1,7 @@
 module SessionsHelper
   def log_in(user)
     session[:user_id] = user.id
+    user.online
   end
 
   def remember(user)
@@ -37,6 +38,7 @@ module SessionsHelper
 
   def log_out
     forget(current_user)
+    current_user.offline
     session.delete :user_id
     session.delete :forwarding_url
     @current_user = nil

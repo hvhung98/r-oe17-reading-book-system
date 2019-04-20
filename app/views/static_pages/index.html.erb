@@ -1,0 +1,130 @@
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+
+<div id="main">
+  <span style="font-size:24px;cursor:pointer" onclick="openNav()">&#9776; Dashboard</span>
+  <div class="row" style="margin-top: 30px">
+    <div class="col-sm-3 col-md-3">
+      <div class="panel panel-default bg-yellow update-panel">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-9 col-md-9">
+              <h3><%= count_online %></h3>
+              <h4>người online</h4>
+            </div>
+            <div class="col-sm-3 col-md-3" style="float: right">
+              <i class="fa fa-user" style="font-size: 50px; float: right;
+                position: relative; top: 25px; color: #fe9365;"></i>
+            </div>
+          </div>
+          <hr>
+          <h4>Tổng số <%= count_user %> người</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-3">
+      <div class="panel panel-default bg-green update-panel">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-9 col-md-9">
+              <h3><%= book_released %></h3>
+              <h4>sách đăng</h4>
+            </div>
+            <div class="col-sm-3 col-md-3" style="float: right">
+              <i class="fa fa-address-book" style="font-size: 50px; float: right;
+                position: relative; top: 25px; color: #0ac282;"></i>
+            </div>
+          </div>
+          <hr>
+          <h4>Tổng số <%= count_book %> sách</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-3">
+      <div class="panel panel-default bg-pink update-panel">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-9 col-md-9">
+              <h3><%= count_comment %></h3>
+              <h4>bình luận</h4>
+            </div>
+            <div class="col-sm-3 col-md-3" style="float: right">
+              <i class="fa fa-comment" style="font-size: 50px; float: right;
+                position: relative; top: 25px; color: #fe5d70;"></i>
+            </div>
+          </div>
+          <hr>
+          <h4>Tổng số <%= book_has_cmt %> sách</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-3">
+      <div class="panel panel-default bg-blue update-panel">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-9 col-md-9">
+              <h3 id="a1"><%= count_comment %></h3>
+              <h4>lượt thích</h4>
+            </div>
+            <div class="col-sm-3 col-md-3" style="float: right">
+              <i class="fa fa-thumbs-up" style="font-size: 50px; float: right;
+                position: relative; top: 25px; color: #01a9ac;"></i>
+            </div>
+          </div>
+          <hr>
+          <h4>Tổng số <%= book_has_like %> sách</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 60px">
+    <div class="col-sm-8 col-md-8">
+      <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+
+window.onload = function () {
+
+var number = document.getElementById("a1").text;
+var chart = new CanvasJS.Chart("chartContainer", {
+  animationEnabled: true,
+  theme: "light2",
+  title:{
+    text: "Thống kê dữ liệu"
+  },
+  data: [{
+    type: "column",
+    dataPoints: [
+      { y: number, label: "Venezuela" },
+      { y: 5,  label: "Saudi" },
+      { y: 9,  label: "Canada" },
+      { y: 10,  label: "Iran" },
+      { y: 3,  label: "Iraq" },
+      { y: 11, label: "Kuwait" },
+      { y: 9,  label: "UAE" },
+      { y: 8,  label: "Russia" }
+    ]
+  }]
+});
+chart.render();
+
+}
+</script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

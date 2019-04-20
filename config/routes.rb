@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post "/signup", to: "users#create"
   get "/home", to: "static_pages#home"
   get "/auth/:provider/callback" => "sessions#create"
+  get "/admin", to: "static_pages#index"
   resources :users do
     resources :follows
   end

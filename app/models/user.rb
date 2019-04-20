@@ -50,6 +50,14 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, nil)
   end
 
+  def online
+    update_attribute(:status, true)
+  end
+
+  def offline
+    update_attribute(:status, false)
+  end
+
   private
 
   def downcase_email

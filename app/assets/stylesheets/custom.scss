@@ -50,7 +50,7 @@
   margin-bottom: 25px;
 }
 
-.edit_book {
+.edit_book, .edit_user, .edit_cmt {
   display: none;
   position: fixed;
   z-index: 1;
@@ -142,4 +142,8 @@
 
 .bg-blue {
   background: linear-gradient(to right, #01a9ac, #01dbdf);
+}
+
+.active_div {
+  background-color: white;
 }

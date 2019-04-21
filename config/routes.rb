@@ -18,4 +18,9 @@ Rails.application.routes.draw do
       resources :comments
     end
   end
+  namespace :admin do
+    resources :users
+    resources :books
+    resources :comments
+  end
 end

@@ -20,5 +20,9 @@ class StaticPagesController < ApplicationController
     else
       redirect_to root_path
     end
+    @all_user = User.where.not(role_id: 3).paginate(page: params[:page],
+      per_page: 15)
+    @all_book = Book.all.paginate(page: params[:page], per_page: 15)
+    @all_cmt = Comment.all.paginate(page: params[:page], per_page: 15)
   end
 end

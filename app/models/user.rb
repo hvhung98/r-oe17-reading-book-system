@@ -11,12 +11,12 @@ class User < ApplicationRecord
   scope :ordered_by_name, -> {order name: :asc}
   belongs_to :role
   has_one :history
-  has_many :follows
+  has_many :follows, dependent: :destroy
   has_many :categories, through: :follows
   has_many :books
-  has_many :likes
+  has_many :likes, dependent: :destroy
   has_many :books, through: :likes
-  has_many :comments
+  has_many :comments, dependent: :destroy
   has_many :books, through: :comments
 
   def self.create_with_omniauth(auth)

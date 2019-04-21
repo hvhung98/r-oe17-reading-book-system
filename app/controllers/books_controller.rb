@@ -1,5 +1,10 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i(edit update destroy)
+
+  def index
+    @books = current_user.books
+  end
+
   def new
     @book = current_user.books.build
     @categories = Category.all.map{|c| [c.name, c.id]}

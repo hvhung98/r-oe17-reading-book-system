@@ -20,6 +20,24 @@ class UsersController < ApplicationController
     store_location
   end
 
+  def edit
+    @user = User.find_by(id: params[:id])
+    if @user.role_id == 1
+      @user.role_id = 2
+      @user.save
+    else
+      @user.role_id = 1
+      @user.save
+    end
+    respond_to do |format|
+      format.js
+      format.html {redirect_to admin_path}
+    end
+  end
+
+  def update
+  end
+
   private
 
   def set_user

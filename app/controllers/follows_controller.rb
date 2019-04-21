@@ -5,7 +5,7 @@ class FollowsController < ApplicationController
   end
 
   def create
-    params[:categories][:id].each do |category|
+    params[:category][:id].each do |category|
       if !category.empty? && !current_user.follows.find_by(category_id: category)
         @follow = current_user.follows.build(:category_id => category)
         @follow.user_id = current_user.id

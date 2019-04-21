@@ -6,7 +6,7 @@
     </div>
     <div class="panel-body">
       <%= form_for [current_user, current_user.follows.build], html: {class: "form-horizontal"} do |f| %>
-        <%= collection_select(:categories, :id, Category.all, :id, :name,
+        <%= collection_select(:category, :id, Category.all, :id, :name,
           {}, {:multiple => true}) %><br>
         <%= f.submit "Xác nhận", class: "btn btn-primary", style: "margin-top: 3%" %>
         <%= link_to "Huỷ bỏ", home_path, class: "btn btn-warning", style: "margin-top: 3%; margin-left: 3%" %>

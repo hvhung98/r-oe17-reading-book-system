@@ -4,152 +4,340 @@
     <%= image_tag("image.jpg", style: "border-radius: 50%; width: 50px;
     height: 50px") %> Admin
   </a><hr>
-  <a href="#">Trang điều khiển</a><br>
-  <a href="#">Người dùng</a><br>
-  <a href="#">Sách</a><br>
-  <a href="#">Bình luận</a>
+  <a href="#" id="btn_dashboard" class="active_div" onclick="redirect_dashboard()">Trang điều khiển</a><br>
+  <a href="#" id="btn_user" onclick="redirect_user()">Người dùng</a><br>
+  <a href="#" id="btn_book" onclick="redirect_book()">Sách</a><br>
+  <a href="#" id="btn_cmt" onclick="redirect_cmt()">Bình luận</a>
 </div>
 
 <div id="main">
   <span style="font-size:24px;cursor:pointer" onclick="openNav()">&#9776; Dashboard</span>
-  <div class="row" style="margin-top: 30px">
-    <div class="col-sm-3 col-md-3">
-      <div class="panel panel-default bg-yellow update-panel">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <h3><%= count_online %></h3>
-              <h4>người online</h4>
+  <div id="div_dashboard">
+    <div class="row" style="margin-top: 30px">
+      <div class="col-sm-3 col-md-3">
+        <div class="panel panel-default bg-yellow update-panel">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-9 col-md-9">
+                <h3><%= count_online %></h3>
+                <h4>người online</h4>
+              </div>
+              <div class="col-sm-3 col-md-3" style="float: right">
+                <i class="fa fa-user" style="font-size: 50px; float: right;
+                  position: relative; top: 25px; color: #fe9365;"></i>
+              </div>
             </div>
-            <div class="col-sm-3 col-md-3" style="float: right">
-              <i class="fa fa-user" style="font-size: 50px; float: right;
-                position: relative; top: 25px; color: #fe9365;"></i>
-            </div>
+            <hr>
+            <h4>Tổng số <%= count_user %> người</h4>
           </div>
-          <hr>
-          <h4>Tổng số <%= count_user %> người</h4>
+        </div>
+      </div>
+      <div class="col-sm-3 col-md-3">
+        <div class="panel panel-default bg-green update-panel">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-9 col-md-9">
+                <h3><%= book_released %></h3>
+                <h4>sách đăng</h4>
+              </div>
+              <div class="col-sm-3 col-md-3" style="float: right">
+                <i class="fa fa-address-book" style="font-size: 50px; float: right;
+                  position: relative; top: 25px; color: #0ac282;"></i>
+              </div>
+            </div>
+            <hr>
+            <h4>Tổng số <%= count_book %> sách</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-md-3">
+        <div class="panel panel-default bg-pink update-panel">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-9 col-md-9">
+                <h3><%= count_comment %></h3>
+                <h4>bình luận</h4>
+              </div>
+              <div class="col-sm-3 col-md-3" style="float: right">
+                <i class="fa fa-comment" style="font-size: 50px; float: right;
+                  position: relative; top: 25px; color: #fe5d70;"></i>
+              </div>
+            </div>
+            <hr>
+            <h4>Tổng số <%= book_has_cmt %> sách</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-md-3">
+        <div class="panel panel-default bg-blue update-panel">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-9 col-md-9">
+                <h3><%= count_like %></h3>
+                <h4>lượt thích</h4>
+              </div>
+              <div class="col-sm-3 col-md-3" style="float: right">
+                <i class="fa fa-thumbs-up" style="font-size: 50px; float: right;
+                  position: relative; top: 25px; color: #01a9ac;"></i>
+              </div>
+            </div>
+            <hr>
+            <h4>Tổng số <%= book_has_like %> sách</h4>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-sm-3 col-md-3">
-      <div class="panel panel-default bg-green update-panel">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <h3><%= book_released %></h3>
-              <h4>sách đăng</h4>
-            </div>
-            <div class="col-sm-3 col-md-3" style="float: right">
-              <i class="fa fa-address-book" style="font-size: 50px; float: right;
-                position: relative; top: 25px; color: #0ac282;"></i>
-            </div>
-          </div>
-          <hr>
-          <h4>Tổng số <%= count_book %> sách</h4>
-        </div>
+    <div class="row" style="margin-top: 60px">
+      <div class="col-sm-7 col-md-7" style="background-color: #f3f3f3">
+        <h3>Thống kê dữ liệu</h3>
+        <canvas id="myChart" width="300" height="300" style="padding: 20px"></canvas>
       </div>
-    </div>
-    <div class="col-sm-3 col-md-3">
-      <div class="panel panel-default bg-pink update-panel">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <h3><%= count_comment %></h3>
-              <h4>bình luận</h4>
-            </div>
-            <div class="col-sm-3 col-md-3" style="float: right">
-              <i class="fa fa-comment" style="font-size: 50px; float: right;
-                position: relative; top: 25px; color: #fe5d70;"></i>
-            </div>
+      <div class="col-sm-1 col-md-1"></div>
+      <div class="col-sm-4 col-md-4" style="background-color: #f3f3f3">
+        <h3>Lịch sử người dùng</h3>
+        <div class="media">
+          <div class="media-left">
+            <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
           </div>
-          <hr>
-          <h4>Tổng số <%= book_has_cmt %> sách</h4>
+          <div class="media-body">
+            <h4 class="media-heading">Admin</h4>
+            <p>Admin đã thích bài viết A</p>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-sm-3 col-md-3">
-      <div class="panel panel-default bg-blue update-panel">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-9 col-md-9">
-              <h3><%= count_like %></h3>
-              <h4>lượt thích</h4>
-            </div>
-            <div class="col-sm-3 col-md-3" style="float: right">
-              <i class="fa fa-thumbs-up" style="font-size: 50px; float: right;
-                position: relative; top: 25px; color: #01a9ac;"></i>
-            </div>
+        <div class="media">
+          <div class="media-left">
+            <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
           </div>
-          <hr>
-          <h4>Tổng số <%= book_has_like %> sách</h4>
+          <div class="media-body">
+            <h4 class="media-heading">Admin</h4>
+            <p>Admin đã thích bài viết A</p>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-left">
+            <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">Admin</h4>
+            <p>Admin đã thích bài viết A</p>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-left">
+            <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">Admin</h4>
+            <p>Admin đã thích bài viết A</p>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-left">
+            <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">Admin</h4>
+            <p>Admin đã thích bài viết A và bài viết B, cùng với đó đã follow thể
+            loại C và comment vào cuốn sách D.</p>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-left">
+            <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">Admin</h4>
+            <p>Admin đã thích bài viết A và bài viết B, cùng với đó đã follow thể
+            loại C và comment vào cuốn sách D.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="row" style="margin-top: 60px">
-    <div class="col-sm-7 col-md-7" style="background-color: #f3f3f3">
-      <h3>Thống kê dữ liệu</h3>
-      <canvas id="myChart" width="300" height="300" style="padding: 20px"></canvas>
+  <div id="div_user" style="display: none">
+    <ul class="nav nav-tabs" style="margin-top: 30px">
+      <li class="active"><a href="#user" data-toggle="tab">User</a></li>
+      <li><a href="#add_user" data-toggle="tab">Add user</a></li>
+    </ul>
+    <div class="tab-content">
+      <div id="user" class="tab-pane fade in active">
+        <table class="table table-bordered" style="margin-top: 40px">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role_id</th>
+              <th>Status</th>
+              <th>Role</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @all_user.each do |user| %>
+              <tr id="user_<%= user.id %>">
+                <td>
+                  <%= link_to user do %>
+                    <%= user.name %>
+                  <% end %>
+                </td>
+                <td><%= user.email %></td>
+                <td><%= user.role_id %></td>
+                <td><%= user.status %></td>
+                <td>
+                  <% if user.role_id == 2 %>
+                    <%= link_to edit_user_path(user), remote: true do %>
+                      <i class="fas fa-lock-open"></i>
+                    <% end %>
+                  <% else %>
+                    <%= link_to edit_user_path(user), remote: true do %>
+                      <i class="fas fa-lock"></i>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to edit_admin_user_path(user), remote: true do %><i class="far fa-edit"></i><% end %>
+                </td>
+                <td><%= link_to admin_user_path(user), method: :delete, remote: true do %><i class="far fa-trash-alt"></i><% end %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="text-center">
+          <%= will_paginate @all_user %>
+        </div>
+      </div>
+      <div id="add_user" class="tab-pane fade">
+        <h1>Add user</h1>
+      </div>
+      <div class="edit_user">
+      </div>
     </div>
-    <div class="col-sm-1 col-md-1"></div>
-    <div class="col-sm-4 col-md-4" style="background-color: #f3f3f3">
-      <h3>Lịch sử người dùng</h3>
-      <div class="media">
-        <div class="media-left">
-          <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Admin</h4>
-          <p>Admin đã thích bài viết A</p>
+  </div>
+  <div id="div_book" style="display: none">
+    <ul class="nav nav-tabs" style="margin-top: 30px">
+      <li class="active"><a href="#book" data-toggle="tab">Book</a></li>
+      <li><a href="#add_book" data-toggle="tab">Add book</a></li>
+    </ul>
+    <div class="tab-content">
+      <div id="book" class="tab-pane fade in active">
+        <table class="table table-bordered" style="margin-top: 40px">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Category</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Created_at</th>
+              <th>Updated_at</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @all_book.each do |book| %>
+              <tr id="book_<%= book.id %>">
+                <td>
+                  <%= link_to book.user do %>
+                    <%= book.user.name %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to book.category do %>
+                    <%= book.category.name %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to [book.category, book] do %>
+                    <%= book.name %>
+                  <% end %>
+                </td>
+                <td><%= book.description %></td>
+                <td><%= book.status %></td>
+                <td><%= time_ago_in_words(book.created_at) %> ago</td>
+                <td><%= time_ago_in_words(book.updated_at) %> ago</td>
+                <td>
+                  <%= link_to edit_admin_book_path(book), remote: true do %>
+                    <i class="far fa-edit"></i>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to admin_book_path(book), method: :delete, remote: true do %>
+                    <i class="far fa-trash-alt"></i>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="text-center">
+          <%= will_paginate @all_book %>
         </div>
       </div>
-      <div class="media">
-        <div class="media-left">
-          <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Admin</h4>
-          <p>Admin đã thích bài viết A</p>
+      <div id="add_book" class="tab-pane fade">
+        <h1>Add book</h1>
+      </div>
+      <div class="edit_book"></div>
+    </div>
+  </div>
+  <div id="div_cmt" style="display: none">
+    <ul class="nav nav-tabs" style="margin-top: 30px">
+      <li class="active"><a href="#comment" data-toggle="tab">Comment</a></li>
+      <li><a href="#add_comment" data-toggle="tab">Add comment</a></li>
+    </ul>
+    <div class="tab-content">
+      <div id="comment" class="tab-pane fade in active">
+        <table class="table table-bordered" style="margin-top: 40px">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Book</th>
+              <th>Content</th>
+              <th>Created_at</th>
+              <th>Updated_at</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @all_cmt.each do |comment| %>
+              <tr id="cmt_<%= comment.id %>">
+                <td>
+                  <%= link_to comment.user do %>
+                    <%= comment.user.name %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to [comment.book.category, comment.book] do %>
+                    <%= comment.book.name %>
+                  <% end %>
+                </td>
+                <td><%= comment.content %></td>
+                <td><%= time_ago_in_words(comment.created_at) %> ago</td>
+                <td><%= time_ago_in_words(comment.updated_at) %> ago</td>
+                <td>
+                  <%= link_to edit_admin_comment_path(comment), remote: true do %>
+                    <i class="far fa-edit"></i>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to admin_comment_path(comment), method: :delete, remote: true do %>
+                    <i class="far fa-trash-alt"></i>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="text-center">
+          <%= will_paginate @all_cmt %>
         </div>
       </div>
-      <div class="media">
-        <div class="media-left">
-          <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Admin</h4>
-          <p>Admin đã thích bài viết A</p>
-        </div>
+      <div id="add_comment" class="tab-pane fade">
+        <h1>Add comment</h1>
       </div>
-      <div class="media">
-        <div class="media-left">
-          <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Admin</h4>
-          <p>Admin đã thích bài viết A</p>
-        </div>
-      </div>
-      <div class="media">
-        <div class="media-left">
-          <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Admin</h4>
-          <p>Admin đã thích bài viết A và bài viết B, cùng với đó đã follow thể
-          loại C và comment vào cuốn sách D.</p>
-        </div>
-      </div>
-      <div class="media">
-        <div class="media-left">
-          <%= image_tag("image.jpg", class: "media-object", style: "width:60px") %>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Admin</h4>
-          <p>Admin đã thích bài viết A và bài viết B, cùng với đó đã follow thể
-          loại C và comment vào cuốn sách D.</p>
-        </div>
-      </div>
+      <div class="edit_cmt"></div>
     </div>
   </div>
 </div>
@@ -202,4 +390,37 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+
+function redirect_dashboard() {
+  document.getElementsByClassName("active_div")[0].classList.remove("active_div");
+  document.getElementById("btn_dashboard").classList.add("active_div");
+  document.getElementById("div_dashboard").style.display = "block";
+  document.getElementById("div_user").style.display = "none";
+  document.getElementById("div_book").style.display = "none";
+  document.getElementById("div_cmt").style.display = "none";
+}
+function redirect_user() {
+  document.getElementsByClassName("active_div")[0].classList.remove("active_div");
+  document.getElementById("btn_user").classList.add("active_div");
+  document.getElementById("div_user").style.display = "block";
+  document.getElementById("div_dashboard").style.display = "none";
+  document.getElementById("div_book").style.display = "none";
+  document.getElementById("div_cmt").style.display = "none";
+}
+function redirect_book() {
+  document.getElementsByClassName("active_div")[0].classList.remove("active_div");
+  document.getElementById("btn_book").classList.add("active_div");
+  document.getElementById("div_book").style.display = "block";
+  document.getElementById("div_user").style.display = "none";
+  document.getElementById("div_dashboard").style.display = "none";
+  document.getElementById("div_cmt").style.display = "none";
+}
+function redirect_cmt() {
+  document.getElementsByClassName("active_div")[0].classList.remove("active_div");
+  document.getElementById("btn_cmt").classList.add("active_div");
+  document.getElementById("div_cmt").style.display = "block";
+  document.getElementById("div_user").style.display = "none";
+  document.getElementById("div_book").style.display = "none";
+  document.getElementById("div_dashboard").style.display = "none";
+}
 </script>

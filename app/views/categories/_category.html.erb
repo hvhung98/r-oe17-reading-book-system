@@ -2,7 +2,7 @@
   margin-bottom: 60px" id="category_<%= category.id %>">
   <div class="panel-heading"><%= category.name %></div>
   <div class="panel-body">
-    <% category.books.paginate(page: params[:page], per_page: 8).each do |book| %>
+    <% category.books.published.order_by_time.paginate(page: params[:page], per_page: 8).each do |book| %>
       <% if (@count_book % 4) == 1 %>
           <div class="row" style="margin-bottom: 30px">
             <div class="col-sm-3 col-md-3 col-lg-3" id="book_<%= book.id %>">
@@ -31,7 +31,7 @@
                 </div>
               <% end %>
             </div>
-          <% if @count_book == (category.books.count - 8*(params[:page].to_i - 1)) %>
+          <% if @count_book == (category.books.published.count - 8*(params[:page].to_i - 1)) %>
             </div>
           <% end %>
       <% elsif (@count_book % 4) == 2 %>
@@ -61,7 +61,7 @@
             </div>
           <% end %>
         </div>
-        <% if @count_book == (category.books.count - 8*(params[:page].to_i - 1)) %>
+        <% if @count_book == (category.books.published.count - 8*(params[:page].to_i - 1)) %>
           </div>
         <% end %>
       <% elsif (@count_book % 4) == 3 %>
@@ -91,7 +91,7 @@
             </div>
           <% end %>
         </div>
-        <% if @count_book == (category.books.count - 8*(params[:page].to_i - 1)) %>
+        <% if @count_book == (category.books.published.count - 8*(params[:page].to_i - 1)) %>
           </div>
         <% end %>
       <% else %>
@@ -123,12 +123,11 @@
           </div>
         </div>
       <% end %>
-
       <% @count_book += 1 %>
     <% end %>
     <% @count_book = 1 %>
   </div>
   <div class="text-center">
-    <%= will_paginate category.books.paginate(page: params[:page], per_page: 8) %>
+    <%= will_paginate category.books.published.order_by_time.paginate(page: params[:page], per_page: 8) %>
   </div>
 </div>

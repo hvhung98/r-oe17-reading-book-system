@@ -2,7 +2,8 @@ class BooksController < ApplicationController
   before_action :set_book, only: %i(edit update destroy)
 
   def index
-    @books = current_user.books
+    @books = Book.where(user_id: current_user.id)
+    store_location
   end
 
   def new
@@ -14,6 +15,9 @@ class BooksController < ApplicationController
   def create
     @book = current_user.books.build(book_params)
     @book.user_id = current_user.id
+    if current_user.role_id == 2 || current_user.role_id == 3
+      @book.status = true
+    end
     @book.category_id = params[:category_id]
     if @book.save
       params[:authors][:id].each do |author|
@@ -33,13 +37,18 @@ class BooksController < ApplicationController
   def show
     @category = Category.find_by(id: params[:category_id])
     @book = @category.books.find_by(id: params[:id])
-    @count_like = @book.likes.count
-    @feed_authors = @book.authors
-    @user = @book.user
-    @feed_chapters = @book.chapters
-    @categories = Category.all
-    @feed_comments = @book.comments.order created_at: :desc
-    store_location
+    if (@book.status) || (!@book.status && (current_user.id == @book.user_id)) ||
+      (!@book.status && (current_user.role_id == 2 || current_user.role_id == 3))
+      @count_like = @book.likes.count
+      @feed_authors = @book.authors
+      @user = @book.user
+      @feed_chapters = @book.chapters
+      @categories = Category.all
+      @feed_comments = @book.comments.order_by_time
+      store_location
+    else
+      redirect_back_or home_path
+    end
   end
 
   def edit

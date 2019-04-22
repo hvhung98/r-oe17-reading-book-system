@@ -1,0 +1,52 @@
+<%= link_to new_book_path, class: "btn btn-primary" do %>
+  <span class="glyphicon glyphicon-plus"></span>
+  Thêm sách
+<% end %>
+<table class="table table-bordered" style="margin-top: 40px">
+  <thead>
+    <tr>
+      <th>Tên sách</th>
+      <th>Thể loại</th>
+      <th>Mô tả</th>
+      <th>Trạng thái</th>
+      <th>Hình ảnh</th>
+      <th>Thời gian tạo</th>
+      <th>Cập nhật lúc</th>
+      <th>Chỉnh sửa</th>
+      <th>Xóa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |book| %>
+      <tr id="book_<%= book.id %>">
+        <td>
+          <%= link_to [book.category, book] do %>
+            <%= book.name %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to book.category do %>
+            <%= book.category.name %>
+          <% end %>
+        </td>
+        <td><%= book.description %></td>
+        <td><%= book.status %></td>
+        <td><%= book.image %></td>
+        <td><%= time_ago_in_words(book.created_at) %> ago</td>
+        <td><%= time_ago_in_words(book.updated_at) %> ago</td>
+        <td>
+          <%= link_to edit_book_path(book), remote: true do %>
+            <i class="far fa-edit"></i>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to book, method: :delete, data: {confirm: "Are you sure?",
+            remote: true}, class: "delete" do %>
+            <i class="far fa-trash-alt"></i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="edit_book"></div>

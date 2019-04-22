@@ -8,7 +8,7 @@ module UsersHelper
   end
 
   def book_released
-    @book_released = Book.where(status: true).count
+    @book_released = Book.published.count
   end
 
   def count_book

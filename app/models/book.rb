@@ -11,6 +11,8 @@ class Book < ApplicationRecord
   validates :category_id, presence: true
   validates :name, presence: true
   validates :description, presence: true
+  scope :order_by_time, -> {order created_at: :desc}
+  scope :published, -> {where status: true}
   mount_uploader :image, PictureUploader
   accepts_nested_attributes_for :chapters
 end

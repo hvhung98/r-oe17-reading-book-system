@@ -14,6 +14,9 @@ class LikesController < ApplicationController
     @like.book_id = @book.id
     @like.user_id = current_user.id
     if @like.save
+      @history = current_user.histories.build(activity_type: "like",
+        activity_id: @like.id)
+      @history.save
       respond_to do |format|
         format.js
         format.html {redirect_to @like}
@@ -26,6 +29,7 @@ class LikesController < ApplicationController
 
   def destroy
     @like = current_user.likes.find_by(book_id: params[:book_id])
+    current_user.histories.where(activity_type: "like", activity_id: @like.id).first.destroy
     @like.destroy
     respond_to do |format|
       format.js

@@ -20,6 +20,9 @@ class BooksController < ApplicationController
     end
     @book.category_id = params[:category_id]
     if @book.save
+      @history = current_user.histories.build(activity_type: "add_book",
+        activity_id: @book.id)
+      @history.save
       params[:authors][:id].each do |author|
         if !author.empty?
           @writer = @book.writers.build(:author_id => author)
@@ -57,6 +60,18 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(update_params)
+      @history_edit = current_user.histories.where(activity_type: "edit_book",
+        activity_id: @book.id).first
+      if @history_edit.present?
+        @history_edit.destroy
+        @history = current_user.histories.build(activity_type: "edit_book",
+          activity_id: @book.id)
+        @history.save
+      else
+        @history = current_user.histories.build(activity_type: "edit_book",
+          activity_id: @book.id)
+        @history.save
+      end
       @book.writers.each do |writer|
         writer.destroy
       end
@@ -73,6 +88,20 @@ class BooksController < ApplicationController
   end
 
   def destroy
+    @history = current_user.histories.where(activity_type: "add_book",
+      activity_id: @book.id).first
+    @history_edit = History.where(activity_type: "edit_book", activity_id: @book.id)
+    @history_edit.each do |history|
+      history.destroy
+    end
+    if @history.nil?
+      History.where(activity_type: "add_book", activity_id: @book.id).first.destroy
+      @history_delete = current_user.histories.build(activity_type: "delete_book",
+        activity_id: @book.user_id)
+      @history_delete.save
+    else
+      @history.destroy
+    end
     @book.destroy
     respond_to do |format|
       format.js

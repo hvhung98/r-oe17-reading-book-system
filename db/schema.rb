@@ -68,7 +68,6 @@ ActiveRecord::Schema.define(version: 20190416010256) do
 
   create_table "histories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
-    t.string "content"
     t.string "activity_type"
     t.integer "activity_id"
     t.datetime "created_at", null: false

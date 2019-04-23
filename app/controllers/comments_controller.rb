@@ -10,6 +10,9 @@ class CommentsController < ApplicationController
     @comment.book_id = @book.id
     @comment.user_id = current_user.id
     if @comment.save
+      @history = current_user.histories.build(activity_type: "add_comment",
+        activity_id: @comment.id)
+      @history.save
       respond_to do |format|
         format.js
         format.html {redirect_to category_book_path @category, @book}

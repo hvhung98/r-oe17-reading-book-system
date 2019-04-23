@@ -27,7 +27,11 @@
           Thông tin <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#">Page 1-1</a></li>
+          <% if logged_in? %>
+            <li>
+              <%= link_to "Nhật ký hoạt động", user_histories_path(current_user) %>
+            </li>
+          <% end %>
           <li><a href="#">Page 1-2</a></li>
           <li><a href="#">Page 1-3</a></li>
         </ul>
@@ -42,7 +46,7 @@
             <%= current_user.name %> <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <% if current_user.role_id == 3 %>
+            <% if current_user.role_id == 3 || current_user.role_id == 2 %>
               <li><%= link_to "Dashboard", admin_path %></li>
             <% end %>
             <li><%= link_to "Trang cá nhân", current_user %></li>

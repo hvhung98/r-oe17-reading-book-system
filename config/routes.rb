@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get "/admin", to: "static_pages#index"
   resources :users do
     resources :follows
+    resources :histories
   end
   resources :likes
   resources :books

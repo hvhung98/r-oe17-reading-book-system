@@ -8,6 +8,18 @@ class Admin::BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
+      @history_edit = current_user.histories.where(activity_type: "edit_book",
+        activity_id: @book.id).first
+      if @history_edit.present?
+        @history_edit.destroy
+        @history = current_user.histories.build(activity_type: "edit_book",
+          activity_id: @book.id)
+        @history.save
+      else
+        @history = current_user.histories.build(activity_type: "edit_book",
+          activity_id: @book.id)
+        @history.save
+      end
       respond_to do |format|
         format.js
         format.html {redirect_to admin_path}
@@ -16,6 +28,20 @@ class Admin::BooksController < ApplicationController
   end
 
   def destroy
+    @history = current_user.histories.where(activity_type: "add_book",
+      activity_id: @book.id).first
+    @history_edit = History.where(activity_type: "edit_book", activity_id: @book.id)
+    @history_edit.each do |history|
+      history.destroy
+    end
+    if @history.nil?
+      History.where(activity_type: "add_book", activity_id: @book.id).first.destroy
+      @history_delete = current_user.histories.build(activity_type: "delete_book",
+        activity_id: @book.user_id)
+      @history_delete.save
+    else
+      @history.destroy
+    end
     @book.destroy
     respond_to do |format|
       format.js

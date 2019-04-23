@@ -12,11 +12,13 @@ class StaticPagesController < ApplicationController
   end
 
   def index
+    @admin = User.find_by(role_id: 3)
     @all_user = User.where.not(role_id: 3)
     @all_book = Book.all.order_by_time.paginate(page: params[:page], per_page: 15)
     @all_cmt = Comment.all.order_by_time.paginate(page: params[:page], per_page: 15)
+    @all_histories = History.all.order_by_time.paginate(page: params[:page], per_page: 15)
     if logged_in?
-      if current_user.role_id != 3
+      if current_user.role_id == 1
         flash[:warning] = "Bạn không có quyền admin"
         redirect_to home_path
       end

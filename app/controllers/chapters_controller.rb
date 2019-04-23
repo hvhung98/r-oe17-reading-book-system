@@ -9,6 +9,9 @@ class ChaptersController < ApplicationController
     @chapter = @book.chapters.build(chapter_params)
     @chapter.book_id = @book.id
     if @chapter.save
+      @history = current_user.histories.build(activity_type: "add_chapter",
+        activity_id: @chapter.id)
+      @history.save
       respond_to do |format|
         format.js
         format.html {redirect_to category_book_path @category, @book}
@@ -38,6 +41,18 @@ class ChaptersController < ApplicationController
   def update
     @chapter = @book.chapters.find_by(id: params[:id])
     @chapter.update(chapter_params)
+    @history_edit = current_user.histories.where(activity_type: "edit_chapter",
+      activity_id: @chapter.id).first
+    if @history_edit.present?
+      @history_edit.destroy
+      @history = current_user.histories.build(activity_type: "edit_chapter",
+        activity_id: @chapter.id)
+      @history.save
+    else
+      @history = current_user.histories.build(activity_type: "edit_chapter",
+        activity_id: @chapter.id)
+      @history.save
+    end
     respond_to do |format|
       format.js
       format.html {redirect_to category_book_path @category, @book}
@@ -46,6 +61,20 @@ class ChaptersController < ApplicationController
 
   def destroy
     @chapter = @book.chapters.find_by(id: params[:id])
+    @history = current_user.histories.where(activity_type: "add_chapter",
+      activity_id: @chapter.id).first
+    @histories_edit = History.where(activity_type: "edit_chapter", activity_id: @chapter.id)
+    @histories_edit.each do |history|
+      history.destroy
+    end
+    if @history.nil?
+      History.where(activity_type: "add_chapter",
+        activity_id: @chapter.id).first.destroy
+      @history_delete = current_user.histories.build(activity_type: "delete_chapter", activity_id: @chapter.book.id)
+      @history_delete.save
+    else
+      @history.destroy
+    end
     @chapter.destroy
     respond_to do |format|
       format.js

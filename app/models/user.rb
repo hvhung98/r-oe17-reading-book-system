@@ -10,7 +10,7 @@ class User < ApplicationRecord
     minimum: Settings.pass_min}, allow_nil: true
   scope :ordered_by_name, -> {order name: :asc}
   belongs_to :role
-  has_one :history
+  has_many :histories, dependent: :destroy
   has_many :follows, dependent: :destroy
   has_many :categories, through: :follows
   has_many :books

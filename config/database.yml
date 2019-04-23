@@ -8,14 +8,14 @@ default: &default
 
 development:
   <<: *default
-  database: mydb
+  database: mydb_production
 
 test:
   <<: *default
-  database: mydb
+  database: mydb_production
 
 production:
   <<: *default
-  database: mydb
+  database: mydb_production
   username: root
   password:

@@ -65,26 +65,26 @@ end
 10.times do |n|
   book_id = 1
   user_id = n%User.count+1
-  name = "Faker::Name.name",
+  name = Faker::Name.name,
   content = Faker::Quotes::Shakespeare.hamlet_quote
-  Chapter.create!(book_id: book_id, name: "Faker::Name.name", content: content)
+  Chapter.create!(book_id: book_id, name: name, content: content)
   Comment.create!(book_id: book_id, user_id: user_id, content: content)
 end
 
 10.times do |n|
   book_id = 5
   user_id = n%User.count+1
-  name = "Faker::Name.name",
+  name = Faker::Name.name,
   content = Faker::Quotes::Shakespeare.hamlet_quote
-  Chapter.create!(book_id: book_id, name: "Faker::Name.name", content: content)
+  Chapter.create!(book_id: book_id, name: name, content: content)
   Comment.create!(book_id: book_id, user_id: user_id, content: content)
 end
 
 10.times do |n|
   book_id = 4
   user_id = n%User.count+1
-  name = "Faker::Name.name",
+  name = Faker::Name.name,
   content = Faker::Quotes::Shakespeare.hamlet_quote
-  Chapter.create!(book_id: book_id, name: "Faker::Name.name", content: content)
+  Chapter.create!(book_id: book_id, name: name, content: content)
   Comment.create!(book_id: book_id, user_id: user_id, content: content)
 end

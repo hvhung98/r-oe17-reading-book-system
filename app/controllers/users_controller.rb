@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i(show)
+  before_action :set_user, only: %i(show update)
   before_action :logged_in_user, only: %i(show)
 
   def new
@@ -17,6 +17,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = current_user
+    @categorys = @user.categories
     store_location
   end
 
@@ -36,6 +38,13 @@ class UsersController < ApplicationController
   end
 
   def update
+    if @user.update_attributes(user_params)
+      flash[:success] = "Profile updated"
+      redirect_to @user
+    else
+      flash[:danger] = "Update fail"
+      redirect_to @user
+    end
   end
 
   private

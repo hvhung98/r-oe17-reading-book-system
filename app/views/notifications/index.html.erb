@@ -1,0 +1,87 @@
+<div class="animate col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2"
+  style="padding-top: 50px">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <div class="panel-title">Thông báo</div>
+    </div>
+    <div class="panel-body">
+      <% @all_notifi.each do |notification| %>
+        <% user = User.find_by(id: notification.used_send) %>
+        <% case notification.activity_type %>
+          <% when "delete_book" %>
+            <div id="notifi_<%= notification.id %>">
+              <% book = Book.find_by(id: notification.activity_id) %>
+              <%= form_for notification, remote: true, html: {class: "form-horizontal"} do |f| %>
+                <p>
+                  <%= link_to user.name, user %>
+                  muốn xóa cuốn sách
+                  <%= link_to book.name, [book.category, book] %>
+                  của bạn
+                </p>
+                <small class="text-info"><%= time_ago_in_words(notification.created_at) %> ago</small><br><br>
+                <%= f.submit "Xác nhận", class: "btn btn-primary" %>
+              <% end %>
+              <%= link_to notification_path(notification), method: :delete,
+                remote: true, class: "btn btn-warning", style: "position: relative;
+                  top: -34px; left: 20%" do %>Từ chối<% end %>
+            </div><hr>
+          <% when "done_delete" %>
+            <p>
+              <%= link_to user.name, user %>
+              đã xác nhận xóa cuốn sách <%= notification.status %> từ bạn
+            </p>
+            <small class="text-info"><%= time_ago_in_words(notification.created_at) %> ago</small><hr>
+          <% when "like" %>
+            <% book = Book.find_by(id: notification.activity_id) %>
+            <p>
+              <%= link_to user.name, user %>
+              đã thích cuốn sách
+              <%= link_to book.name, [book.category, book] %>
+              của bạn
+            </p>
+            <small class="text-info"><%= time_ago_in_words(notification.created_at) %> ago</small><hr>
+          <% when "comment" %>
+            <% book = Book.find_by(id: notification.activity_id) %>
+            <p>
+              <%= link_to user.name, user %>
+              đã bình luận trog cuốn sách
+              <%= link_to book.name, [book.category, book] %>
+              của bạn
+            </p>
+            <small class="text-info"><%= time_ago_in_words(notification.created_at) %> ago</small><hr>
+          <% when "add_chapter" %>
+            <% chapter = Chapter.find_by(id: notification.activity_id) %>
+            <p>
+              <%= link_to user.name, user %>
+              đã thêm chapter
+              <%= link_to chapter.name, [chapter.book.category, chapter.book, chapter] %>
+              vào cuốn sách
+              <%= link_to chapter.book.name, [chapter.book.category, chapter.book] %>
+              của bạn
+            </p>
+            <small class="text-info"><%= time_ago_in_words(notification.created_at) %> ago</small><hr>
+          <% when "edit_chapter" %>
+            <% chapter = Chapter.find_by(id: notification.activity_id) %>
+            <p>
+              <%= link_to user.name, user %>
+              đã chỉnh sửa chapter
+              <%= link_to chapter.name, [chapter.book.category, chapter.book, chapter] %>
+              vào lúc <%= notification.status %> trong cuốn sách
+              <%= link_to chapter.book.name, [chapter.book.category, chapter.book] %>
+              của bạn
+            </p>
+            <small class="text-info"><%= time_ago_in_words(notification.created_at) %> ago</small><hr>
+          <% when "delete_chapter" %>
+            <% book = Book.find_by(id: notification.activity_id) %>
+            <p>
+              <%= link_to user.name, user %>
+              đã xóa chapter <%= notification.status %> trong cuốn sách
+              <%= link_to chapter.book.name, [chapter.book.category, chapter.book] %>
+              của bạn
+            </p>
+            <small class="text-info"><%= time_ago_in_words(notification.created_at) %> ago</small><hr>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

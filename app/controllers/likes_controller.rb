@@ -17,6 +17,11 @@ class LikesController < ApplicationController
       @history = current_user.histories.build(activity_type: "like",
         activity_id: @like.id)
       @history.save
+      if @book.user.id != current_user.id
+        @notification = Notification.new(used_send: current_user.id,
+          user_receive: @book.user.id, activity_type: "like", activity_id: @book.id)
+        @notification.save
+      end
       respond_to do |format|
         format.js
         format.html {redirect_to @like}
@@ -31,6 +36,11 @@ class LikesController < ApplicationController
     @like = current_user.likes.find_by(book_id: params[:book_id])
     current_user.histories.where(activity_type: "like", activity_id: @like.id).first.destroy
     @like.destroy
+    if current_user.id != @book.user.id
+      Notification.where(used_send: current_user.id,
+        user_receive: @book.user.id, activity_type: "like",
+        activity_id: @book.id).first.destroy
+    end
     respond_to do |format|
       format.js
       format.html {redirect_to category_book_path @book.category, @book}

@@ -31,9 +31,10 @@
             <li>
               <%= link_to "Nhật ký hoạt động", user_histories_path(current_user) %>
             </li>
+            <li>
+              <%= link_to "Thông báo", notifications_path %>
+            </li>
           <% end %>
-          <li><a href="#">Page 1-2</a></li>
-          <li><a href="#">Page 1-3</a></li>
         </ul>
       </li>
     </ul>
@@ -41,7 +42,7 @@
       <ul class="nav navbar-right">
         <li class="dropdown" style="float: right">
           <a href="#" class="dropdown-toggle text-muted" data-toggle="dropdown">
-            <%= image_tag("image.jpg", style: "border-radius: 50%; width: 30px;
+            <%= image_tag("dam_bi_ghet.jpg", style: "border-radius: 50%; width: 30px;
             height: 30px; margin-right: 6px") %>
             <%= current_user.name %> <span class="caret"></span>
           </a>

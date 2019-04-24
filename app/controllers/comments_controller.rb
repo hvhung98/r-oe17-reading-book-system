@@ -13,6 +13,12 @@ class CommentsController < ApplicationController
       @history = current_user.histories.build(activity_type: "add_comment",
         activity_id: @comment.id)
       @history.save
+      if current_user.id != @book.user.id
+        @notification = Notification.new(used_send: current_user.id,
+          user_receive: @book.user.id, activity_type: "comment",
+          activity_id: @book.id, status: @comment.content)
+        @notification.save
+      end
       respond_to do |format|
         format.js
         format.html {redirect_to category_book_path @category, @book}

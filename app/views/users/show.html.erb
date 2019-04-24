@@ -1,1 +1,88 @@
-<h1>Xin chao</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="fb-profile-block">
+                <div class="fb-profile-block-thumb cover-container"></div>
+                <div class="profile-img">
+                    <a href="#">
+                        <%= link_to (gravatar_for(@user)), @user %>
+                    </a>
+                </div>
+                <div class="profile-name">
+                    <h2><%= @user.name %></h2>
+                </div>
+
+                <div class="fb-profile-block-menu">
+                    <div class="block-menu">
+                        <ul >
+                            <li class="profile"><a href="#">Profile</a></li>
+                            <li class="update_info"><a href="#">Update Info</a></li>
+                            <li class="follow"><a href="#">Follow</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile user_profile">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div col-md-4>
+                    Name: <%= @user.name %>
+                </div>
+                <div col-md-4>
+                    Email: <%= @user.email %>
+                </div>
+                <div col-md-4>
+                    Password: ********
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="update_info user_profile">
+        <h1 id="updateinfopf">Update your profile</h1>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <%= form_for(@user) do |f| %>
+
+                <%= f.label :name %>
+                <%= f.text_field :name, class: "form-control" %>
+
+                <%= f.label :email %>
+                <%= f.email_field :email, class: "form-control" %>
+
+                <%= f.label :password %>
+                <%= f.password_field :password, class: "form-control" %>
+
+                <%= f.label :password_confirmation, "Confirmation" %>
+                <%= f.password_field :password_confirmation, class: "form-control" %>
+
+                <%= f.submit "Save changes", class: "btn btn-primary" %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="follow user_profile">
+        <%= @categorys.each do |category| %>
+        <%= link_to category.name, category  %> <br/>
+        <% end %>
+    </div>
+
+</div>
+<script type="text/javascript">
+  $(".profile").click(function() {
+    $(".user_profile").hide();
+    $(".profile").show();
+  });
+  $(".update_info").click(function() {
+    $(".user_profile").hide();
+    $(".update_info").show();
+  });
+  $(".follow").click(function() {
+    $(".user_profile").hide();
+    $(".follow").show();
+  });
+</script>

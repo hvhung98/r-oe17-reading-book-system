@@ -12,6 +12,12 @@ class ChaptersController < ApplicationController
       @history = current_user.histories.build(activity_type: "add_chapter",
         activity_id: @chapter.id)
       @history.save
+      if current_user.id != @book.user.id
+        @notification = Notification.new(used_send: current_user.id,
+          user_receive: @book.user.id, activity_type: "add_chapter",
+          activity_id: @chapter.id)
+        @notification.save
+      end
       respond_to do |format|
         format.js
         format.html {redirect_to category_book_path @category, @book}
@@ -41,17 +47,11 @@ class ChaptersController < ApplicationController
   def update
     @chapter = @book.chapters.find_by(id: params[:id])
     @chapter.update(chapter_params)
-    @history_edit = current_user.histories.where(activity_type: "edit_chapter",
-      activity_id: @chapter.id).first
-    if @history_edit.present?
-      @history_edit.destroy
-      @history = current_user.histories.build(activity_type: "edit_chapter",
-        activity_id: @chapter.id)
-      @history.save
-    else
-      @history = current_user.histories.build(activity_type: "edit_chapter",
-        activity_id: @chapter.id)
-      @history.save
+    if current_user.id != @book.user.id
+      @notification = Notification.new(used_send: current_user.id,
+        user_receive: @book.user.id, activity_type: "edit_chapter",
+        activity_id: @chapter.id, status: @chapter.updated_at)
+      @notification.save
     end
     respond_to do |format|
       format.js
@@ -63,18 +63,25 @@ class ChaptersController < ApplicationController
     @chapter = @book.chapters.find_by(id: params[:id])
     @history = current_user.histories.where(activity_type: "add_chapter",
       activity_id: @chapter.id).first
-    @histories_edit = History.where(activity_type: "edit_chapter", activity_id: @chapter.id)
-    @histories_edit.each do |history|
-      history.destroy
-    end
     if @history.nil?
-      History.where(activity_type: "add_chapter",
-        activity_id: @chapter.id).first.destroy
-      @history_delete = current_user.histories.build(activity_type: "delete_chapter", activity_id: @chapter.book.id)
-      @history_delete.save
+      @history_other = History.where(activity_type: "add_chapter", activity_id: @chapter.id).first
+      if @history_other.present?
+        @history_other.destroy
+      end
     else
       @history.destroy
     end
+    Notification.where(user_receive: @book.user.id,
+      activity_type: "add_chapter", activity_id: @chapter.id).first.destroy
+    @notifi_edit = Notification.where(user_receive: @book.user.id,
+      activity_type: "edit_chapter", activity_id: @chapter.id)
+    @notifi_edit.each do |notifi|
+      notifi.destroy
+    end
+    @notification = Notification.new(used_send: current_user.id,
+      user_receive: @book.user.id, activity_type: "delete_chapter",
+      activity_id: @book.id, status: @chapter.name)
+    @notification.save
     @chapter.destroy
     respond_to do |format|
       format.js

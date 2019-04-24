@@ -24,4 +24,6 @@ Rails.application.routes.draw do
     resources :books
     resources :comments
   end
+  resources :notifications
+  resources :export_users, only: :index
 end

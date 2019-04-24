@@ -1,7 +1,7 @@
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a href="#">
-    <%= image_tag("image.jpg", style: "border-radius: 50%; width: 50px;
+    <%= image_tag("dam_bi_ghet.jpg", style: "border-radius: 50%; width: 50px;
     height: 50px") %> Admin
   </a><hr>
   <a href="#" id="btn_dashboard" class="active_div" onclick="redirect_dashboard()">Trang điều khiển</a><br>
@@ -11,7 +11,7 @@
 </div>
 
 <div id="main">
-  <span style="font-size:24px;cursor:pointer" onclick="openNav()">&#9776; Dashboard</span>
+  <span style="font-size:24px;cursor:pointer" onclick="openNav()">&#9776; Dashboard</span><hr>
   <div id="div_dashboard">
     <div class="row" style="margin-top: 30px">
       <div class="col-sm-3 col-md-3">
@@ -98,95 +98,64 @@
         <% @all_histories.each do |history| %>
           <div class="media">
             <div class="media-left">
-              <%= image_tag("image.jpg", class: "media-object", style: "width:55px") %>
+              <%= image_tag("pf_image.jpg", class: "media-object", style: "width:55px") %>
             </div>
             <div class="media-body">
               <h4 class="media-heading"><%= link_to history.user.name, history.user %></h4>
               <% case history.activity_type %>
                 <% when "like" %>
                   <% like = history.user.likes.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã thích cuốn sách
-                    <%= link_to like.book.name, [like.book.category, like.book] %>
-                    của
-                    <%= link_to like.book.user.name, like.book.user %>
-                  </p><hr>
+                  <% if like.present? %>
+                    <p>
+                      <%= history.user.name %> đã thích cuốn sách
+                      <%= link_to like.book.name, [like.book.category, like.book] %>
+                      của
+                      <%= link_to like.book.user.name, like.book.user %>
+                    </p>
+                    <small class="text-info"><%= time_ago_in_words(history.created_at) %> ago</small><hr>
+                  <% end %>
                 <% when "follow" %>
                   <% follow = history.user.follows.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã theo dõi thể loại
-                    <%= link_to follow.category.name, follow.category %>
-                  </p><hr>
+                  <% if follow.present? %>
+                    <p>
+                      <%= history.user.name %> đã theo dõi thể loại
+                      <%= link_to follow.category.name, follow.category %>
+                    </p>
+                    <small class="text-info"><%= time_ago_in_words(history.created_at) %> ago</small><hr>
+                  <% end %>
                 <% when "add_comment" %>
                   <% comment = history.user.comments.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã bình luận trong cuốn sách
-                    <%= link_to comment.book.name, [comment.book.category, comment.book] %>
-                    của
-                    <%= link_to comment.book.user.name, comment.book.user %>
-                  </p><hr>
-                <% when "edit_comment" %>
-                  <% comment = Comment.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã chỉnh sửa bình luận của
-                    <%= link_to comment.user.name, comment.user %>
-                    trong cuốn sách
-                    <%= link_to comment.book.name, [comment.book.category, comment.book] %>
-                  </p><hr>
-                <% when "delete_comment" %>
-                  <% user = User.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã xóa bình luận của
-                    <%= link_to user.name, user %>
-                  </p><hr>
+                  <% if comment.present? %>
+                    <p>
+                      <%= history.user.name %> đã bình luận trong cuốn sách
+                      <%= link_to comment.book.name, [comment.book.category, comment.book] %>
+                      của
+                      <%= link_to comment.book.user.name, comment.book.user %>
+                    </p>
+                    <small class="text-info"><%= time_ago_in_words(history.created_at) %> ago</small><hr>
+                  <% end %>
                 <% when "add_book" %>
                   <% book = Book.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã thêm cuốn sách
-                    <%= link_to book.name, [book.category, book] %>
-                  </p><hr>
-                <% when "edit_book" %>
-                  <% book = Book.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã cập nhật cuốn sách
-                    <%= link_to book.name, [book.category, book] %>
-                    của
-                    <%= link_to book.user.name, book.user %>
-                  </p><hr>
-                <% when "delete_book" %>
-                  <% user = User.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã xóa cuốn sách của
-                    <%= link_to user.name, user %>
-                  </p><hr>
+                  <% if book.present? %>
+                    <p>
+                      <%= history.user.name %> đã thêm cuốn sách
+                      <%= link_to book.name, [book.category, book] %>
+                    </p>
+                    <small class="text-info"><%= time_ago_in_words(history.created_at) %> ago</small><hr>
+                  <% end %>
                 <% when "add_chapter" %>
                   <% chapter = Chapter.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã thêm chapter
-                    <%= link_to chapter.name, [chapter.book.category, chapter.book, chapter] %>
-                    vào cuốn sách
-                    <%= link_to chapter.book.name, [chapter.book.category, chapter.book] %>
-                    của
-                    <%= link_to chapter.book.user.name, chapter.book.user %>
-                  </p><hr>
-                <% when "edit_chapter" %>
-                  <% chapter = Chapter.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã cập nhật chapter
-                    <%= link_to chapter.name, [chapter.book.category, chapter.book, chapter] %>
-                    trong cuốn sách
-                    <%= link_to chapter.book.name, [chapter.book.category, chapter.book] %>
-                    của
-                    <%= link_to chapter.book.user.name, chapter.book.user %>
-                  </p><hr>
-                <% when "delete_chapter" %>
-                  <% book = Book.find_by(id: history.activity_id) %>
-                  <p>
-                    <%= history.user.name %> đã xóa chapter trong cuốn sách
-                    <%= link_to book.name, [book.category, book] %>
-                    của
-                    <%= link_to book.user.name, book.user %>
-                  </p>
+                  <% if chapter.present? %>
+                    <p>
+                      <%= history.user.name %> đã thêm chapter
+                      <%= link_to chapter.name, [chapter.book.category, chapter.book, chapter] %>
+                      vào cuốn sách
+                      <%= link_to chapter.book.name, [chapter.book.category, chapter.book] %>
+                      của
+                      <%= link_to chapter.book.user.name, chapter.book.user %>
+                    </p>
+                    <small class="text-info"><%= time_ago_in_words(history.created_at) %> ago</small><hr>
+                  <% end %>
               <% end %>
             </div>
           </div>
@@ -198,242 +167,239 @@
     </div>
   </div>
   <div id="div_user" style="display: none">
-    <ul class="nav nav-tabs" style="margin-top: 30px">
-      <li class="active"><a href="#user" data-toggle="tab">User</a></li>
-      <li><a href="#add_user" data-toggle="tab">Add user</a></li>
-    </ul>
-    <div class="tab-content">
-      <div id="user" class="tab-pane fade in active">
-        <table class="table table-bordered" style="margin-top: 40px">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role_id</th>
-              <th>Status</th>
-              <th>Role</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="color: red">
-              <td><%= @admin.name %></td>
-              <td><%= @admin.email %></td>
-              <td><%= @admin.role_id %></td>
-              <td><%= @admin.status %></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <% @all_user.each do |user| %>
-              <tr id="user_<%= user.id %>">
-                <td>
-                  <%= link_to user do %>
-                    <%= user.name %>
-                  <% end %>
-                </td>
-                <td><%= user.email %></td>
-                <td><%= user.role_id %></td>
-                <td><%= user.status %></td>
-                <td>
+    <h4 class="text-info" style="margin-top: 30px">Quản lý người dùng</h4>
+    <table class="table table-bordered" style="margin-top: 40px">
+      <thead>
+        <tr>
+          <th>Tên người dùng</th>
+          <th>Email</th>
+          <th>Quyền</th>
+          <th>Trạng thái</th>
+          <th>Thời gian tạo</th>
+          <th>Cập nhật</th>
+          <th>Phân quyền</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="color: red">
+          <td><%= @admin.name %></td>
+          <td><%= @admin.email %></td>
+          <td>
+            <%= @admin.role.name %>
+          </td>
+          <td>
+            <% if @admin.status %>
+              Online
+            <% else %>
+              Offline
+            <% end %>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <% @all_user.each do |user| %>
+        <tr id="user_<%= user.id %>">
+          <td>
+            <%= link_to user do %>
+            <%= user.name %>
+            <% end %>
+          </td>
+          <td><%= user.email %></td>
+          <td><%= user.role.name %></td>
+          <td>
+            <% if user.status %>
+            Online
+            <% else %>
+            Offline
+            <% end %>
+          </td>
+          <td><%= time_ago_in_words(user.created_at) %> ago</td>
+          <td><%= time_ago_in_words(user.updated_at) %> ago</td>
+          <td>
+            <% if current_user.role_id == 3 %>
+              <% if user.role_id == 2 %>
+                <%= link_to edit_user_path(user), remote: true do %>
+                  <i class="fas fa-lock-open"></i>
+                <% end %>
+              <% else %>
+                <%= link_to edit_user_path(user), remote: true do %>
+                  <i class="fas fa-lock"></i>
+                <% end %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br>
+    <%= link_to "Export users", export_users_path(format: :csv), class: "btn btn-info" %>
+  </div>
+  <div id="div_book" style="display: none">
+    <h4 class="text-info" style="margin-top: 30px">Quản lý sách</h4>
+    <table class="table table-bordered" style="margin-top: 40px">
+      <thead>
+        <tr>
+          <th>Người đăng</th>
+          <th>Thể loại</th>
+          <th>Tên sách</th>
+          <th>Mô tả</th>
+          <th>Trạng thái</th>
+          <th>Được tạo</th>
+          <th>Cập nhật</th>
+          <th>Duyệt</th>
+          <th>Xóa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all_book.each do |book| %>
+          <tr id="book_<%= book.id %>">
+            <td>
+              <%= link_to book.user do %>
+                <%= book.user.name %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to book.category do %>
+              <%= book.category.name %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to [book.category, book] do %>
+                <%= book.name %>
+              <% end %>
+            </td>
+            <td><%= book.description %></td>
+            <td>
+              <% if book.status %>
+                published
+              <% else %>
+                unpublished
+              <% end %>
+            </td>
+            <td><%= time_ago_in_words(book.created_at) %> ago</td>
+            <td><%= time_ago_in_words(book.updated_at) %> ago</td>
+            <td>
                 <% if current_user.role_id == 3 %>
-                  <% if user.role_id == 2 %>
-                    <%= link_to edit_user_path(user), remote: true do %>
+                  <% if book.status %>
+                    <%= link_to edit_admin_book_path(book), remote: true do %>
                       <i class="fas fa-lock-open"></i>
                     <% end %>
                   <% else %>
-                    <%= link_to edit_user_path(user), remote: true do %>
+                    <%= link_to edit_admin_book_path(book), remote: true do %>
                       <i class="fas fa-lock"></i>
                     <% end %>
                   <% end %>
-                <% end %>
-                </td>
-                <td>
-                <% if current_user.role_id > user.role_id ||
-                  current_user.id == user.id %>
-                  <%= link_to edit_admin_user_path(user), remote: true do %><i class="far fa-edit"></i><% end %>
-                <% end %>
-                </td>
-                <td>
-                <% if current_user.role_id > user.role_id %>
-                  <%= link_to admin_user_path(user), method: :delete,
-                    remote: true do %><i class="far fa-trash-alt"></i><% end %>
-                <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-      <div id="add_user" class="tab-pane fade">
-        <h1>Add user</h1>
-      </div>
-      <div class="edit_user">
-      </div>
-    </div>
-  </div>
-  <div id="div_book" style="display: none">
-    <ul class="nav nav-tabs" style="margin-top: 30px">
-      <li class="active"><a href="#book" data-toggle="tab">Book</a></li>
-      <li><a href="#add_book" data-toggle="tab">Add book</a></li>
-    </ul>
-    <div class="tab-content">
-      <div id="book" class="tab-pane fade in active">
-        <table class="table table-bordered" style="margin-top: 40px">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Category</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Created_at</th>
-              <th>Updated_at</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @all_book.each do |book| %>
-              <tr id="book_<%= book.id %>">
-                <td>
-                  <%= link_to book.user do %>
-                    <%= book.user.name %>
-                  <% end %>
-                </td>
-                <td>
-                  <%= link_to book.category do %>
-                    <%= book.category.name %>
-                  <% end %>
-                </td>
-                <td>
-                  <%= link_to [book.category, book] do %>
-                    <%= book.name %>
-                  <% end %>
-                </td>
-                <td><%= book.description %></td>
-                <td><%= book.status %></td>
-                <td><%= time_ago_in_words(book.created_at) %> ago</td>
-                <td><%= time_ago_in_words(book.updated_at) %> ago</td>
-                <td>
-                <% if current_user.role_id == 3 %>
-                  <%= link_to edit_admin_book_path(book), remote: true do %>
-                    <i class="far fa-edit"></i>
-                  <% end %>
                 <% else %>
                   <% if current_user.role_id > book.user.role_id ||
                     current_user.id == book.user.id %>
-                    <%= link_to edit_admin_book_path(book), remote: true do %>
-                      <i class="far fa-edit"></i>
+                    <% if book.status %>
+                      <%= link_to edit_admin_book_path(book), remote: true do %>
+                        <i class="fas fa-lock-open"></i>
+                      <% end %>
+                    <% else %>
+                      <%= link_to edit_admin_book_path(book), remote: true do %>
+                        <i class="fas fa-lock"></i>
+                      <% end %>
                     <% end %>
                   <% end %>
                 <% end %>
-                </td>
-                <td>
+            </td>
+            <td>
+              <% if book.user.id == current_user.id %>
+                <%= link_to admin_book_path(book), method: :delete, remote: true,
+                  data: {confirm: "Are you sure?"} do %>
+                  <i class="far fa-trash-alt"></i>
+                <% end %>
+              <% else %>
+                <% notification = Notification.where(used_send: current_user.id,
+                    activity_type: "delete_book", activity_id: book.id).first %>
                 <% if current_user.role_id == 3 %>
-                  <%= link_to admin_book_path(book), method: :delete, remote: true do %>
-                    <i class="far fa-trash-alt"></i>
-                  <% end %>
-                <% else %>
-                  <% if current_user.role_id > book.user.role_id ||
-                    current_user.id == book.user.id %>
-                    <%= link_to admin_book_path(book), method: :delete, remote: true do %>
+                  <% if notification.present? %>
+                    <%= link_to admin_book_path(book), method: :put,
+                      remote: true do %>
+                      <i class="fa fa-spinner fa-spin"></i>
+                    <% end %>
+                  <% else %>
+                    <%= link_to admin_book_path(book), method: :put, remote: true do %>
                       <i class="far fa-trash-alt"></i>
                     <% end %>
                   <% end %>
+                <% else %>
+                  <% if current_user.role_id > book.user.role_id %>
+                    <% if notification.present? %>
+                      <%= link_to admin_book_path(book), method: :put, remote: true do %>
+                      <i class="fa fa-spinner fa-spin"></i>
+                    <% end %>
+                    <% else %>
+                      <%= link_to admin_book_path(book), method: :put, remote: true do %>
+                        <i class="far fa-trash-alt"></i>
+                      <% end %>
+                    <% end %>
+                  <% end %>
                 <% end %>
-                </td>
-              </tr>
+              <% end %>
+            </td>
+          </tr>
             <% end %>
           </tbody>
         </table>
-        <div class="text-center">
-          <%= will_paginate @all_book %>
-        </div>
-      </div>
-      <div id="add_book" class="tab-pane fade">
-        <h1>Add book</h1>
-      </div>
-      <div class="edit_book"></div>
+    <div class="text-center">
+      <%= will_paginate @all_book %>
     </div>
+    <div class="edit_book"></div>
   </div>
   <div id="div_cmt" style="display: none">
-    <ul class="nav nav-tabs" style="margin-top: 30px">
-      <li class="active"><a href="#comment" data-toggle="tab">Comment</a></li>
-      <li><a href="#add_comment" data-toggle="tab">Add comment</a></li>
-    </ul>
-    <div class="tab-content">
-      <div id="comment" class="tab-pane fade in active">
-        <table class="table table-bordered" style="margin-top: 40px">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Book</th>
-              <th>Content</th>
-              <th>Created_at</th>
-              <th>Updated_at</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @all_cmt.each do |comment| %>
-              <tr id="cmt_<%= comment.id %>">
-                <td>
-                  <%= link_to comment.user do %>
-                    <%= comment.user.name %>
-                  <% end %>
-                </td>
-                <td>
-                  <%= link_to [comment.book.category, comment.book] do %>
-                    <%= comment.book.name %>
-                  <% end %>
-                </td>
-                <td><%= comment.content %></td>
-                <td><%= time_ago_in_words(comment.created_at) %> ago</td>
-                <td><%= time_ago_in_words(comment.updated_at) %> ago</td>
-                <td>
-                <% if current_user.role_id == 3 %>
-                  <%= link_to edit_admin_comment_path(comment), remote: true do %>
-                    <i class="far fa-edit"></i>
-                  <% end %>
-                <% else %>
-                  <% if current_user.role_id > comment.user.role_id ||
-                    current_user.id == comment.user.id %>
-                    <%= link_to edit_admin_comment_path(comment), remote: true do %>
-                      <i class="far fa-edit"></i>
-                    <% end %>
-                  <% end %>
-                <% end %>
-                </td>
-                <td>
-                <% if current_user.role_id == 3 %>
-                  <%= link_to admin_comment_path(comment), method: :delete, remote: true do %>
-                    <i class="far fa-trash-alt"></i>
-                  <% end %>
-                <% else %>
-                  <% if current_user.role_id > comment.user.role_id ||
-                    current_user.id == comment.user.id %>
-                    <%= link_to admin_comment_path(comment), method: :delete, remote: true do %>
-                      <i class="far fa-trash-alt"></i>
-                    <% end %>
-                  <% end %>
-                <% end %>
-                </td>
-              </tr>
+    <h4 class="text-info" style="margin-top: 30px">Bình luận</h4>
+    <table class="table table-bordered" style="margin-top: 40px">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Book</th>
+          <th>Content</th>
+          <th>Created_at</th>
+          <th>Updated_at</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all_cmt.each do |comment| %>
+        <tr id="cmt_<%= comment.id %>">
+          <td>
+            <%= link_to comment.user do %>
+            <%= comment.user.name %>
             <% end %>
-          </tbody>
-        </table>
-        <div class="text-center">
-          <%= will_paginate @all_cmt %>
-        </div>
+          </td>
+          <td>
+            <%= link_to [comment.book.category, comment.book] do %>
+            <%= comment.book.name %>
+            <% end %>
+          </td>
+          <td><%= comment.content %></td>
+          <td><%= time_ago_in_words(comment.created_at) %> ago</td>
+          <td><%= time_ago_in_words(comment.updated_at) %> ago</td>
+          <td>
+            <% if current_user.role_id == 3 %>
+            <%= link_to admin_comment_path(comment), method: :delete, remote: true do %>
+            <i class="far fa-trash-alt"></i>
+            <% end %>
+            <% else %>
+            <% if current_user.role_id > comment.user.role_id ||
+              current_user.id == comment.user.id %>
+              <%= link_to admin_comment_path(comment), method: :delete, remote: true do %>
+              <i class="far fa-trash-alt"></i>
+              <% end %>
+              <% end %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="text-center">
+        <%= will_paginate @all_cmt %>
       </div>
-      <div id="add_comment" class="tab-pane fade">
-        <h1>Add comment</h1>
-      </div>
-      <div class="edit_cmt"></div>
-    </div>
   </div>
 </div>
 

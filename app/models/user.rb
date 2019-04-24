@@ -18,6 +18,8 @@ class User < ApplicationRecord
   has_many :books, through: :likes
   has_many :comments, dependent: :destroy
   has_many :books, through: :comments
+  has_many :notifications
+  CSV_ATTRIBUTES = %w(name email role_id created_at).freeze
 
   def self.create_with_omniauth(auth)
     create! do |user|

@@ -20,3 +20,8 @@ en:
   shared:
     error_messages:
       the: "The "
+  header_csv:
+    name: Họ và tên
+    email: Email
+    role_id: Quyền người dùng
+    created_at: Thời gian tạo

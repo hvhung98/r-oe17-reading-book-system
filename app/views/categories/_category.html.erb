@@ -10,7 +10,7 @@
                 <% if book.image? %>
                  <%= image_tag(book.image.url, style: "width:100%") %>
                 <% else %>
-                  <%= image_tag("image.jpg", style: "width:100%",
+                  <%= image_tag("dam_bi_ghet.jpg", style: "width:100%",
                     alt: "Book image") %>
                 <% end %>
                 <div class="caption text-center">
@@ -18,27 +18,61 @@
                 </div>
               <% end %>
               <% if current_user.present? %>
-                <% if current_user.role_id == 3 %>
+                <% if current_user.id == book.user.id %>
                   <div class="text-center">
                     <%= link_to edit_book_path(book), remote: true do %>
-                      <i class="far fa-edit" style="font-size: 18px; color: #337ab7"></i>
+                      <i class="far fa-edit" style="font-size: 18px;
+                        color: #337ab7"></i>
                     <% end %>
                     <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
                       <i class="far fa-trash-alt" style="font-size: 18px;
                         color: #337ab7; margin-left: 8px"></i>
                     <% end %>
                   </div>
-                <% elsif current_user.role_id == 2 %>
-                  <% if current_user.role_id > book.user.role_id || book.user.id == current_user.id %>
-                    <div class="text-center">
-                      <%= link_to edit_book_path(book), remote: true do %>
-                        <i class="far fa-edit" style="font-size: 18px; color: #337ab7"></i>
+                <% else %>
+                <div id="div_book_<%= book.id %>">
+                  <% notification = Notification.where(used_send: current_user.id,
+                    activity_type: "delete_book", activity_id: book.id).first %>
+                  <% if current_user.role_id == 3 %>
+                    <% if notification.present? %>
+                      <div class="text-center">
+                        <%= link_to admin_book_path(book), method: :put,
+                          remote: true do %>
+                          <i class="fa fa-spinner fa-spin" style="font-size: 18px;
+                            color: #337ab7"></i>
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <div class="text-center">
+                        <%= link_to admin_book_path(book), method: :put,
+                          remote: true do %>
+                          <i class="far fa-trash-alt" style="font-size: 18px;
+                            color: #337ab7"></i>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <% if current_user.role_id > book.user.role_id %>
+                      <% if notification.present? %>
+                        <div class="text-center">
+                          <%= link_to admin_book_path(book), method: :put,
+                            remote: true do %>
+                            <i class="fa fa-spinner fa-spin" style="font-size: 18px;
+                              color: #337ab7"></i>
+                          <% end %>
+                        </div>
+                      <% else %>
+                        <div class="text-center">
+                          <%= link_to admin_book_path(book), method: :put,
+                            remote: true do %>
+                            <i class="far fa-trash-alt" style="font-size: 18px;
+                              color: #337ab7"></i>
+                            <% end %>
+                        </div>
                       <% end %>
-                      <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
-                        <i class="far fa-trash-alt" style="font-size: 18px; color: #337ab7; margin-left: 8px"></i>
-                      <% end %>
-                    </div>
+                    <% end %>
                   <% end %>
+                </div>
                 <% end %>
               <% end %>
             </div>
@@ -51,7 +85,7 @@
             <% if book.image? %>
              <%= image_tag(book.image.url, style: "width:100%") %>
             <% else %>
-              <%= image_tag("image.jpg", style: "width:100%",
+              <%= image_tag("dam_bi_ghet.jpg", style: "width:100%",
                 alt: "Book image") %>
             <% end %>
             <div class="caption text-center">
@@ -59,29 +93,63 @@
             </div>
           <% end %>
           <% if current_user.present? %>
-            <% if current_user.role_id == 3 %>
-              <div class="text-center">
-                <%= link_to edit_book_path(book), remote: true do %>
-                <i class="far fa-edit" style="font-size: 18px; color: #337ab7"></i>
+                <% if current_user.id == book.user.id %>
+                  <div class="text-center">
+                    <%= link_to edit_book_path(book), remote: true do %>
+                      <i class="far fa-edit" style="font-size: 18px;
+                        color: #337ab7"></i>
+                    <% end %>
+                    <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
+                      <i class="far fa-trash-alt" style="font-size: 18px;
+                        color: #337ab7; margin-left: 8px"></i>
+                    <% end %>
+                  </div>
+                <% else %>
+                <div id="div_book_<%= book.id %>">
+                  <% notification = Notification.where(used_send: current_user.id,
+                    activity_type: "delete_book", activity_id: book.id).first %>
+                  <% if current_user.role_id == 3 %>
+                    <% if notification.present? %>
+                      <div class="text-center">
+                        <%= link_to admin_book_path(book), method: :put,
+                          remote: true do %>
+                          <i class="fa fa-spinner fa-spin" style="font-size: 18px;
+                            color: #337ab7"></i>
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <div class="text-center">
+                        <%= link_to admin_book_path(book), method: :put,
+                          remote: true do %>
+                          <i class="far fa-trash-alt" style="font-size: 18px;
+                            color: #337ab7"></i>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <% if current_user.role_id > book.user.role_id %>
+                      <% if notification.present? %>
+                        <div class="text-center">
+                          <%= link_to admin_book_path(book), method: :put,
+                            remote: true do %>
+                            <i class="fa fa-spinner fa-spin" style="font-size: 18px;
+                              color: #337ab7"></i>
+                          <% end %>
+                        </div>
+                      <% else %>
+                        <div class="text-center">
+                          <%= link_to admin_book_path(book), method: :put,
+                            remote: true do %>
+                            <i class="far fa-trash-alt" style="font-size: 18px;
+                              color: #337ab7"></i>
+                            <% end %>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
                 <% end %>
-                <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
-                <i class="far fa-trash-alt" style="font-size: 18px;
-                color: #337ab7; margin-left: 8px"></i>
-                <% end %>
-              </div>
-            <% elsif current_user.role_id == 2 %>
-              <% if current_user.role_id > book.user.role_id || book.user.id == current_user.id %>
-              <div class="text-center">
-                <%= link_to edit_book_path(book), remote: true do %>
-                <i class="far fa-edit" style="font-size: 18px; color: #337ab7"></i>
-                <% end %>
-                <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
-                <i class="far fa-trash-alt" style="font-size: 18px; color: #337ab7; margin-left: 8px"></i>
-                <% end %>
-              </div>
               <% end %>
-            <% end %>
-          <% end %>
         </div>
         <% if @count_book == (category.books.published.count - 8*(params[:page].to_i - 1)) %>
           </div>
@@ -92,7 +160,7 @@
             <% if book.image? %>
              <%= image_tag(book.image.url, style: "width:100%") %>
             <% else %>
-              <%= image_tag("image.jpg", style: "width:100%",
+              <%= image_tag("dam_bi_ghet.jpg", style: "width:100%",
                 alt: "Book image") %>
             <% end %>
             <div class="caption text-center">
@@ -100,29 +168,63 @@
             </div>
           <% end %>
           <% if current_user.present? %>
-            <% if current_user.role_id == 3 %>
-              <div class="text-center">
-                <%= link_to edit_book_path(book), remote: true do %>
-                <i class="far fa-edit" style="font-size: 18px; color: #337ab7"></i>
+                <% if current_user.id == book.user.id %>
+                  <div class="text-center">
+                    <%= link_to edit_book_path(book), remote: true do %>
+                      <i class="far fa-edit" style="font-size: 18px;
+                        color: #337ab7"></i>
+                    <% end %>
+                    <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
+                      <i class="far fa-trash-alt" style="font-size: 18px;
+                        color: #337ab7; margin-left: 8px"></i>
+                    <% end %>
+                  </div>
+                <% else %>
+                <div id="div_book_<%= book.id %>">
+                  <% notification = Notification.where(used_send: current_user.id,
+                    activity_type: "delete_book", activity_id: book.id).first %>
+                  <% if current_user.role_id == 3 %>
+                    <% if notification.present? %>
+                      <div class="text-center">
+                        <%= link_to admin_book_path(book), method: :put,
+                          remote: true do %>
+                          <i class="fa fa-spinner fa-spin" style="font-size: 18px;
+                            color: #337ab7"></i>
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <div class="text-center">
+                        <%= link_to admin_book_path(book), method: :put,
+                          remote: true do %>
+                          <i class="far fa-trash-alt" style="font-size: 18px;
+                            color: #337ab7"></i>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <% if current_user.role_id > book.user.role_id %>
+                      <% if notification.present? %>
+                        <div class="text-center">
+                          <%= link_to admin_book_path(book), method: :put,
+                            remote: true do %>
+                            <i class="fa fa-spinner fa-spin" style="font-size: 18px;
+                              color: #337ab7"></i>
+                          <% end %>
+                        </div>
+                      <% else %>
+                        <div class="text-center">
+                          <%= link_to admin_book_path(book), method: :put,
+                            remote: true do %>
+                            <i class="far fa-trash-alt" style="font-size: 18px;
+                              color: #337ab7"></i>
+                            <% end %>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
                 <% end %>
-                <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
-                <i class="far fa-trash-alt" style="font-size: 18px;
-                color: #337ab7; margin-left: 8px"></i>
-                <% end %>
-              </div>
-            <% elsif current_user.role_id == 2 %>
-              <% if current_user.role_id > book.user.role_id || book.user.id == current_user.id %>
-              <div class="text-center">
-                <%= link_to edit_book_path(book), remote: true do %>
-                <i class="far fa-edit" style="font-size: 18px; color: #337ab7"></i>
-                <% end %>
-                <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
-                <i class="far fa-trash-alt" style="font-size: 18px; color: #337ab7; margin-left: 8px"></i>
-                <% end %>
-              </div>
               <% end %>
-            <% end %>
-          <% end %>
         </div>
         <% if @count_book == (category.books.published.count - 8*(params[:page].to_i - 1)) %>
           </div>
@@ -133,7 +235,7 @@
             <% if book.image? %>
              <%= image_tag(book.image.url, style: "width:100%") %>
             <% else %>
-              <%= image_tag("image.jpg", style: "width:100%",
+              <%= image_tag("dam_bi_ghet.jpg", style: "width:100%",
                 alt: "Book image") %>
             <% end %>
             <div class="caption text-center">
@@ -141,29 +243,63 @@
             </div>
             <% end %>
             <% if current_user.present? %>
-              <% if current_user.role_id == 3 %>
-                <div class="text-center">
-                  <%= link_to edit_book_path(book), remote: true do %>
-                  <i class="far fa-edit" style="font-size: 18px; color: #337ab7"></i>
-                  <% end %>
-                  <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
-                  <i class="far fa-trash-alt" style="font-size: 18px;
-                  color: #337ab7; margin-left: 8px"></i>
-                  <% end %>
-                </div>
-              <% elsif current_user.role_id == 2 %>
-                <% if current_user.role_id > book.user.role_id || book.user.id == current_user.id %>
-                <div class="text-center">
-                  <%= link_to edit_book_path(book), remote: true do %>
-                  <i class="far fa-edit" style="font-size: 18px; color: #337ab7"></i>
-                  <% end %>
-                  <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
-                  <i class="far fa-trash-alt" style="font-size: 18px; color: #337ab7; margin-left: 8px"></i>
+                <% if current_user.id == book.user.id %>
+                  <div class="text-center">
+                    <%= link_to edit_book_path(book), remote: true do %>
+                      <i class="far fa-edit" style="font-size: 18px;
+                        color: #337ab7"></i>
+                    <% end %>
+                    <%= link_to book, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete" do %>
+                      <i class="far fa-trash-alt" style="font-size: 18px;
+                        color: #337ab7; margin-left: 8px"></i>
+                    <% end %>
+                  </div>
+                <% else %>
+                <div id="div_book_<%= book.id %>">
+                  <% notification = Notification.where(used_send: current_user.id,
+                    activity_type: "delete_book", activity_id: book.id).first %>
+                  <% if current_user.role_id == 3 %>
+                    <% if notification.present? %>
+                      <div class="text-center">
+                        <%= link_to admin_book_path(book), method: :put,
+                          remote: true do %>
+                          <i class="fa fa-spinner fa-spin" style="font-size: 18px;
+                            color: #337ab7"></i>
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <div class="text-center">
+                        <%= link_to admin_book_path(book), method: :put,
+                          remote: true do %>
+                          <i class="far fa-trash-alt" style="font-size: 18px;
+                            color: #337ab7"></i>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <% if current_user.role_id > book.user.role_id %>
+                      <% if notification.present? %>
+                        <div class="text-center">
+                          <%= link_to admin_book_path(book), method: :put,
+                            remote: true do %>
+                            <i class="fa fa-spinner fa-spin" style="font-size: 18px;
+                              color: #337ab7"></i>
+                          <% end %>
+                        </div>
+                      <% else %>
+                        <div class="text-center">
+                          <%= link_to admin_book_path(book), method: :put,
+                            remote: true do %>
+                            <i class="far fa-trash-alt" style="font-size: 18px;
+                              color: #337ab7"></i>
+                            <% end %>
+                        </div>
+                      <% end %>
+                    <% end %>
                   <% end %>
                 </div>
                 <% end %>
               <% end %>
-            <% end %>
           </div>
         </div>
       <% end %>

@@ -11,6 +11,9 @@ class CategoriesController < ApplicationController
       @follow = @category.follows.build
       @follow.user_id = current_user.id
       @follow.save
+      @history = current_user.histories.build(activity_type: "add_category",
+        activity_id: @category.id)
+      @history.save
       respond_to do |format|
         format.js
         format.html {redirect_to @category}

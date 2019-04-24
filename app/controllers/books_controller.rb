@@ -31,7 +31,7 @@ class BooksController < ApplicationController
         end
       end
       flash[:success] = "Thêm sách thành công"
-      redirect_back_or home_path
+      redirect_to [@book.category, @book]
     else
       render :new
     end
@@ -60,18 +60,6 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(update_params)
-      @history_edit = current_user.histories.where(activity_type: "edit_book",
-        activity_id: @book.id).first
-      if @history_edit.present?
-        @history_edit.destroy
-        @history = current_user.histories.build(activity_type: "edit_book",
-          activity_id: @book.id)
-        @history.save
-      else
-        @history = current_user.histories.build(activity_type: "edit_book",
-          activity_id: @book.id)
-        @history.save
-      end
       @book.writers.each do |writer|
         writer.destroy
       end
@@ -88,19 +76,29 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    @history = current_user.histories.where(activity_type: "add_book",
-      activity_id: @book.id).first
-    @history_edit = History.where(activity_type: "edit_book", activity_id: @book.id)
-    @history_edit.each do |history|
-      history.destroy
+    History.where(activity_type: "add_chapter").each do |add_chapter|
+      add_chapter.destroy
     end
-    if @history.nil?
-      History.where(activity_type: "add_book", activity_id: @book.id).first.destroy
-      @history_delete = current_user.histories.build(activity_type: "delete_book",
-        activity_id: @book.user_id)
-      @history_delete.save
-    else
-      @history.destroy
+    History.where(activity_type: "add_comment").each do |add_comment|
+      add_comment.destroy
+    end
+    History.where(activity_type: "like").each do |like|
+      like.destroy
+    end
+    Notification.where(activity_type: "add_chapter").each do |add_chapter|
+      add_chapter.destroy
+    end
+    Notification.where(activity_type: "edit_chapter").each do |edit_chapter|
+      edit_chapter.destroy
+    end
+    Notification.where(activity_type: "delete_chapter").each do |delete_chapter|
+      delete_chapter.destroy
+    end
+    Notification.where(activity_type: "comment").each do |comment|
+      comment.destroy
+    end
+    Notification.where(activity_type: "like").each do |like|
+      like.destroy
     end
     @book.destroy
     respond_to do |format|

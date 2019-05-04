@@ -1,6 +1,6 @@
-class CreateWrittenBies < ActiveRecord::Migration[5.1]
+class CreateWriters < ActiveRecord::Migration[5.1]
   def change
-    create_table :written_bies do |t|
+    create_table :writers do |t|
       t.references :author, foreign_key: true
       t.references :book, foreign_key: true
 

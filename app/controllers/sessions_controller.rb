@@ -1,12 +1,17 @@
 class SessionsController < ApplicationController
   def new
+    if logged_in?
+      redirect_to current_user
+    else
+      render :new
+    end
   end
 
   def create
     if (auth = request.env["omniauth.auth"])
       user = User.find_by_provider_and_id(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
-        log_in user
-        redirect_to user
+      log_in user
+      redirect_to user
     else
       user = User.find_by(email: params[:session][:email].downcase)
       if user && user.authenticate(params[:session][:password])

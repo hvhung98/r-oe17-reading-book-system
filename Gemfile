@@ -5,6 +5,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+<<<<<<< HEAD
+=======
+gem "config"
+>>>>>>> b633a1b2e25573c8f8bc7e978566474e60928195
 gem "bcrypt", "3.1.12"
 gem "bootstrap-sass"
 gem "coffee-rails", "~> 4.2"

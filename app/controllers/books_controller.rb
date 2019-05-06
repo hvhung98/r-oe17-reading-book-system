@@ -40,8 +40,7 @@ class BooksController < ApplicationController
   def show
     @category = Category.find_by(id: params[:category_id])
     @book = @category.books.find_by(id: params[:id])
-    if (@book.status) || (!@book.status && (current_user.id == @book.user_id)) ||
-      (!@book.status && (current_user.role_id == 2 || current_user.role_id == 3))
+    if @book.present? && ((@book.status) || (!@book.status && (current_user.id == @book.user_id)) || (!@book.status && (current_user.role_id == 2 || current_user.role_id == 3)))
       @count_like = @book.likes.count
       @feed_authors = @book.authors
       @user = @book.user
@@ -71,6 +70,9 @@ class BooksController < ApplicationController
         end
       end
       flash[:success] = "Cập nhật sách thành công";
+      redirect_back_or [@book.category, @book]
+    else
+      flash[:danger] = "Cập nhật thất bại"
       redirect_back_or home_path
     end
   end

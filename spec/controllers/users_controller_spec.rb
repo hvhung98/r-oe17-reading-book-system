@@ -102,11 +102,11 @@ RSpec.describe UsersController, type: :controller do
       end
       it "changes @user's attributes" do
         put :update, params: {id: @user.id, user: FactoryBot.attributes_for(:user,
-          name: "hoanghung", email: "hoanghung@gmail.com", password: "foobar",
+          name: "vuvanquy", email: "vuvanquy@gmail.com", password: "foobar",
           password_confirmation: "foobar")}
         @user.reload
-        expect(@user.name).to eq("hoanghung")
-        expect(@user.email).to eq("hoanghung@gmail.com")
+        expect(@user.name).to eq("vuvanquy")
+        expect(@user.email).to eq("vuvanquy@gmail.com")
       end
       it "renders to the @user view" do
         put :update, params: {id: @user.id, user: FactoryBot.attributes_for(:user)}
@@ -121,11 +121,11 @@ RSpec.describe UsersController, type: :controller do
       end
       it "does not change @user's attributes" do
         put :update, params: {id: @user.id, user: FactoryBot.attributes_for(:user,
-          name: "", email: "hoanghung123@gmail.com", password: "",
+          name: "", email: "vuvanquy123@gmail.com", password: "",
           password_confirmation: "123456")}
         @user.reload
         expect(@user.name).not_to eq("")
-        expect(@user.email).not_to eq("hoanghung123@gmail.com")
+        expect(@user.email).not_to eq("vuvanquy123@gmail.com")
       end
       it "re-renders to the @user view" do
         put :update, params: {id: @user.id, user: FactoryBot.attributes_for(:invalid_user)}
